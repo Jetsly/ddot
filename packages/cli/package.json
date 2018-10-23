@@ -1,0 +1,24 @@
+{
+  "name": "@ddot/cli",
+  "bin": {
+    "ddot": "bin/ddot.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jetsly/ddot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Jetsly/ddot/issues"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@ddot/utils": "^0.0.1"
+  }
+}
