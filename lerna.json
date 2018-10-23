@@ -1,0 +1,14 @@
+{
+  "useWorkspaces": true,
+  "changelog": {
+    "labels": {
+      "enhancement": ":rocket: Enhancement",
+      "bug": ":bug: Bug Fix",
+      "documentation": ":book: Documentation"
+    },
+    "repo": "Jetsly/ddot",
+    "cacheDir": ".changelog"
+  },
+  "npmClient": "yarn",
+  "version": "0.0.0"
+}

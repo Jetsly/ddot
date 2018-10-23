@@ -1,0 +1,23 @@
+{
+  "name": "@ddot/utils",
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "main": "./lib/index",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jetsly/ddot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Jetsly/ddot/issues"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "inversify": "^5.0.1",
+    "reflect-metadata": "^0.1.12"
+  }
+}
