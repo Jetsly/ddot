@@ -1,5 +1,5 @@
-import "reflect-metadata";
 import { Container } from 'inversify';
+import 'reflect-metadata';
 export { ContainerModule, injectable, inject } from 'inversify';
 export * from './interfaces';
 export * from './types';

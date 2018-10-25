@@ -1,3 +1,6 @@
+export interface IContext {
+  mode: 'development' | 'production';
+}
 export interface ICli {
-  run();
+  run(context: IContext): void;
 }
