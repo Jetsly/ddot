@@ -1,5 +1,5 @@
 {
-  "name": "@ddot/dot-plugin-webpack",
+  "name": "@ddot/ddot-plugin-webpack",
   "main": "lib/index.js",
   "version": "0.0.1",
   "license": "MIT",
@@ -7,8 +7,12 @@
     "access": "public"
   },
   "dependencies": {
-    "@ddot/utils": "^0.0.1",
-    "@webpack-cli/serve": "^0.1.2"
+    "@ddot/plugin-utils": "^0.0.1",
+    "koa": "^2.6.1",
+    "webpack": "^4.23.0",
+    "webpack-chain": "^5.0.1",
+    "webpack-dev-middleware": "^3.4.0",
+    "webpackbar": "^2.6.3"
   },
   "scripts": {
     "build": "tsc",

@@ -1,5 +1,5 @@
 {
-  "name": "@ddot/cli",
+  "name": "@ddot/ddot-cli",
   "version": "0.0.1",
   "license": "MIT",
   "bin": {
@@ -9,7 +9,9 @@
     "access": "public"
   },
   "dependencies": {
-    "@ddot/utils": "^0.0.1"
+    "@ddot/plugin-utils": "^0.0.1",
+    "cosmiconfig": "^5.0.6",
+    "yargs": "^12.0.2"
   },
   "scripts": {
     "build": "tsc",
