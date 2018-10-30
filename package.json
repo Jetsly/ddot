@@ -28,7 +28,7 @@
     "changelog": "lerna-changelog",
     "build": "lerna run build",
     "watch-plugin-webpack":"yarn workspace @ddot/ddot-plugin-webpack watch",
-    "watch-plugin-utils":"yarn workspace @ddot/ddot-plugin-utils watch",
+    "watch-plugin-utils":"yarn workspace @ddot/plugin-utils watch",
     "watch-cli":"yarn workspace @ddot/ddot-cli watch",
     "watch":"concurrently \"npm:watch-*\"",
     "commit": "git-cz"

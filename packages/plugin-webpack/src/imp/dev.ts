@@ -1,10 +1,19 @@
-import { choosePort } from '@ddot/plugin-utils';
+import {
+  ddotContainer,
+  injectable,
+  Interfaces,
+  TYPES,
+} from '@ddot/plugin-utils';
 // import Koa from 'koa';
 // import webpackMiddle from 'webpack-dev-middleware';
 
 // const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 8000;
 
-class DevCommand {
+@injectable()
+class DevCommand implements Interfaces.Icli {
+  public get command() {
+    return ['dev', 'start a dev server for development'];
+  }
   // protected app: any;
   constructor() {
     // this.app = new Koa();
@@ -15,3 +24,7 @@ class DevCommand {
     console.log('DevCommand');
   }
 }
+ddotContainer
+  .bind<Interfaces.Icli>(TYPES.Icli)
+  .to(DevCommand)
+  .whenTargetNamed('dev');

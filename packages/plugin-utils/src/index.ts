@@ -4,7 +4,6 @@ export { ContainerModule, injectable, inject } from 'inversify';
 
 export { choosePort } from './internal/choosePort';
 
-export * from './interfaces';
-export * from './types';
+export * from './Identifier';
 
 export const ddotContainer = new Container();
