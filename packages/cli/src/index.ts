@@ -1,5 +1,5 @@
 import { ddotContainer, Interfaces, TYPES } from '@ddot/plugin-utils';
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import * as cosmiconfig from 'cosmiconfig';
 import * as resolveCwd from 'resolve-cwd';
 import { error } from 'signale';
