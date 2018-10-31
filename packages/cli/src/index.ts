@@ -1,5 +1,5 @@
 import { ddotContainer, Interfaces, TYPES } from '@ddot/plugin-utils';
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import * as cosmiconfig from 'cosmiconfig';
 import * as resolveCwd from 'resolve-cwd';
 import { error } from 'signale';
@@ -16,7 +16,9 @@ const loadCfg: (name: string) => IConfig = name => {
   return explorer.searchSync();
 };
 const loadPlugins = (cfg: IConfig) => {
-  cfg.config.plugins.forEach(plugin => {
+  if (!cfg) { return }
+  const { config: { plugins = [] } } = cfg
+  plugins.forEach(plugin => {
     require(resolveCwd(plugin));
   });
 };
