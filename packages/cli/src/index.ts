@@ -54,7 +54,9 @@ if (targetCommand === undefined) {
     .alias('h', 'help')
     .epilogue(
       `run ${chalk.blue('$0 help [command]')} for usage of a specific command..`
-    ).argv;
+    )
+    .showHelp()
+    .argv;
 } else if ((clis = getTargetCli(targetCommand)).length === 0) {
   error(`Command ${chalk.underline.cyan(targetCommand)} does not exists`);
 } else {
