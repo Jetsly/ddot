@@ -1,17 +1,13 @@
 {
-  "name": "@ddot/ddot-cli",
+  "name": "@ddot/ddot-plugin-react",
+  "main": "lib/index.js",
   "version": "0.0.1",
   "license": "MIT",
-  "bin": {
-    "ddot": "bin/ddot.js"
-  },
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@ddot/plugin-utils": "^0.0.1",
-    "cosmiconfig": "^5.0.6",
-    "yargs": "^12.0.2"
+    "@ddot/plugin-utils": "^0.0.1"
   },
   "files": [
     "lib"

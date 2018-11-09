@@ -24,10 +24,10 @@
     }
   },
   "scripts": {
-    "bootstrap": "lerna bootstrap",
     "changelog": "lerna-changelog",
     "build": "lerna run build",
     "watch-plugin-webpack":"yarn workspace @ddot/ddot-plugin-webpack watch",
+    "watch-plugin-react":"yarn workspace @ddot/ddot-plugin-react watch",
     "watch-plugin-utils":"yarn workspace @ddot/plugin-utils watch",
     "watch-cli":"yarn workspace @ddot/ddot-cli watch",
     "watch":"concurrently \"npm:watch-*\"",

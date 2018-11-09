@@ -3,11 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
-  "dependencies": {
-
-  },
   "devDependencies": {
     "@ddot/ddot-cli": "^0.0.1",
+    "@ddot/ddot-plugin-react": "^0.0.1",
     "@ddot/ddot-plugin-webpack": "^0.0.1"
   },
   "scripts": {

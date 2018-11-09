@@ -1,9 +1,12 @@
-import { ddotContainer, Interfaces, TYPES } from '@ddot/plugin-utils';
-import * as chalk from 'chalk';
+import {
+  ddotContainer,
+  Interfaces,
+  pluginsCfg,
+  TYPES,
+} from '@ddot/plugin-utils';
 import * as cosmiconfig from 'cosmiconfig';
 import * as resolveCwd from 'resolve-cwd';
-import { error } from 'signale';
-import { argv, usage } from 'yargs';
+import { argv, showHelp, usage } from 'yargs';
 interface IConfig {
   config: {
     plugins: string[];
@@ -17,7 +20,9 @@ const loadCfg: (name: string) => IConfig = name => {
 };
 const loadPlugins = (cfg: IConfig) => {
   cfg.config.plugins.forEach(plugin => {
-    require(resolveCwd(plugin));
+    const [name, values] = Array.isArray(plugin) ? plugin : [plugin, {}];
+    require(resolveCwd(name));
+    ddotContainer.bind(pluginsCfg(name)).toConstantValue(values);
   });
 };
 
@@ -28,33 +33,17 @@ const getAllCli: () => Interfaces.Icli[] = () => {
   return ddotContainer.getAll<Interfaces.Icli>(TYPES.Icli);
 };
 
-const getTargetCli: (
-  commandName: string
-) => Interfaces.Icli[] = commandName => {
-  if (!ddotContainer.isBoundNamed(TYPES.Icli, commandName)) {
-    return [];
-  }
-  return ddotContainer.getAllNamed<Interfaces.Icli>(TYPES.Icli, commandName);
-};
-
 loadPlugins(loadCfg(moduleName));
+// tslint:disable-next-line:no-unused-expression
+getAllCli()
+  .reduce(
+    (_, command) => _.command(command),
+    usage(`Usage: $0 <command> [options]`)
+  )
+  .version(false)
+  .help(false).argv;
 
 const [targetCommand] = argv._;
-let clis = [];
 if (targetCommand === undefined) {
-  const cmd = getAllCli()
-    .reduce(
-      (_, { command: [name, ...otherCommand] }) =>
-        _.command(chalk.green(name), ...otherCommand),
-      usage(`\nUsage: $0 <command> [options]`)
-    )
-    .help('h')
-    .alias('h', 'help')
-    .epilogue(
-      `run ${chalk.blue('$0 help [command]')} for usage of a specific command..`
-    ).argv;
-} else if ((clis = getTargetCli(targetCommand)).length === 0) {
-  error(`Command ${chalk.underline.cyan(targetCommand)} does not exists`);
-} else {
-  clis.forEach(cli => cli.run());
+  showHelp();
 }

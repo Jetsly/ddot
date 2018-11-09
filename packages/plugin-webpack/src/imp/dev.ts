@@ -4,27 +4,40 @@ import {
   Interfaces,
   TYPES,
 } from '@ddot/plugin-utils';
-// import Koa from 'koa';
-// import webpackMiddle from 'webpack-dev-middleware';
+import webpack from 'webpack';
+import * as Config from 'webpack-chain';
+import * as webpackbar from 'webpackbar'
+import { cfg } from '../utils';
 
-// const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 8000;
+import * as Koa from 'koa';
+import webpackMiddle from 'webpack-dev-middleware';
+
+const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 8000;
 
 @injectable()
 class DevCommand implements Interfaces.Icli {
   public get command() {
-    return ['dev', 'start a dev server for development'];
+    return 'dev';
   }
-  // protected app: any;
+  public get describe() {
+    return 'start a dev server for development';
+  }
+  private app
   constructor() {
-    // this.app = new Koa();
+    this.app = new Koa();
   }
-  public async run() {
+  public async handler(argv: object) {
     // const port = await choosePort(DEFAULT_PORT);
     // this.app.listen(3000);
-    console.log('DevCommand');
+    const config = this.Config
+    console.log(config.toConfig());
+  }
+  private get Config(){
+    const config = new Config();
+    config.plugin('progress').use(webpackbar)
+    cfg.info.chainWebpack(config, { webpack });
+    
+    return config
   }
 }
-ddotContainer
-  .bind<Interfaces.Icli>(TYPES.Icli)
-  .to(DevCommand)
-  .whenTargetNamed('dev');
+ddotContainer.bind<Interfaces.Icli>(TYPES.Icli).to(DevCommand);
