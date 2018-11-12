@@ -7,8 +7,9 @@ import {
 } from '@ddot/plugin-utils';
 import { request } from 'https';
 import { createPromptModule } from 'inquirer';
+import { stringify } from 'querystring';
 import { exec } from 'shelljs';
-import { fatal, Signale } from 'signale';
+import { error, Signale } from 'signale';
 
 interface IArgv {
   jobName: string;
@@ -37,6 +38,7 @@ class JenkinsCommand implements Interfaces.Icli<IArgv> {
   public get builder() {
     return {
       branch: {
+        type: 'string',
         default: exec("git status | head -n 1  | awk '{print  $3}'", {
           silent: true,
         }).stdout.trim(),
@@ -54,10 +56,10 @@ class JenkinsCommand implements Interfaces.Icli<IArgv> {
    */
   public async handler(argv: IArgv) {
     if (this.token === 'undefined') {
-      return fatal(`${JENKINS_TOKEN} not set, please npm config set `);
+      return error(`${JENKINS_TOKEN} not set, please npm config set `);
     }
     if (this.config === undefined) {
-      return fatal(`${COMMAND} config not set, please set ${COMMAND} config `);
+      return error(`${COMMAND} config not set, please set ${COMMAND} config `);
     }
     const { ok = false, branch = '', jobName = '', ...answer } = {
       ...(await createPromptModule()(this.config.prompt(argv))),

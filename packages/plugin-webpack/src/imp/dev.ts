@@ -1,13 +1,6 @@
-import {
-  CONFIG_KEYS,
-  Container,
-  Interfaces,
-  utils,
-} from '@ddot/plugin-utils';
+import { CONFIG_KEYS, Container, Interfaces, utils } from '@ddot/plugin-utils';
 import webpack from 'webpack';
-import * as Config from 'webpack-chain';
-import * as webpackbar from 'webpackbar';
-import { IConfig, pluginsName } from '../utils';
+import { chainConfig, IConfig, pluginsName } from '../utils';
 
 import * as Koa from 'koa';
 import webpackMiddle from 'webpack-dev-middleware';
@@ -42,12 +35,11 @@ export default class DevCommand implements Interfaces.Icli<IArgv> {
     if (!port) {
       return;
     }
-    this.app.listen(port);
     const config = this.Config;
+    console.log(config.toConfig());
   }
   private get Config() {
-    const config = new Config();
-    config.plugin('progress').use(webpackbar);
+    const config = chainConfig();
     this.config.chainWebpack(config, { webpack });
     return config;
   }

@@ -29,6 +29,7 @@
     "build": "lerna run build",
     "docs:dev": "vuepress dev example/docs",
     "docs:build": "vuepress build example/docs",
+    "test:react": "yarn workspace @example/react ddot dev",
     "watch-plugin-webpack": "yarn workspace @ddot/ddot-plugin-webpack watch",
     "watch-plugin-react": "yarn workspace @ddot/ddot-plugin-react watch",
     "watch-plugin-utils": "yarn workspace @ddot/plugin-utils watch",
