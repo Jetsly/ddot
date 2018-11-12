@@ -1,49 +1,35 @@
+import { argv, usage } from 'yargs';
+
 import {
-  ddotContainer,
-  Interfaces,
-  pluginsCfg,
-  TYPES,
-} from '@ddot/plugin-utils';
-import * as cosmiconfig from 'cosmiconfig';
-import * as resolveCwd from 'resolve-cwd';
-import { argv, showHelp, usage } from 'yargs';
-interface IConfig {
-  config: {
-    plugins: string[];
-  };
-}
-const moduleName = 'ddot';
+  getAllCli,
+  loadCfg,
+  loadConfig,
+  loadPlugins,
+  moduleName,
+  showHelp,
+} from './utils';
 
-const loadCfg: (name: string) => IConfig = name => {
-  const explorer = cosmiconfig(name);
-  return explorer.searchSync();
-};
-const loadPlugins = (cfg: IConfig) => {
-  cfg.config.plugins.forEach(plugin => {
-    const [name, values] = Array.isArray(plugin) ? plugin : [plugin, {}];
-    require(resolveCwd(name));
-    ddotContainer.bind(pluginsCfg(name)).toConstantValue(values);
-  });
-};
+import './imp/jenkins';
 
-const getAllCli: () => Interfaces.Icli[] = () => {
-  if (!ddotContainer.isBound(TYPES.Icli)) {
-    return [];
-  }
-  return ddotContainer.getAll<Interfaces.Icli>(TYPES.Icli);
-};
-
-loadPlugins(loadCfg(moduleName));
+const { config } = loadCfg(moduleName);
+loadConfig(config);
+loadPlugins(config);
+const allCli = getAllCli();
 // tslint:disable-next-line:no-unused-expression
-getAllCli()
-  .reduce(
-    (_, command) => _.command(command),
-    usage(`Usage: $0 <command> [options]`)
-  )
+allCli
+  .reduce((_, cli) => {
+    const { command, describe, builder, handler } = cli;
+    return _.command({
+      command,
+      describe,
+      builder,
+      handler: handler.bind(cli),
+    });
+  }, usage(`Usage: $0 <command> [options]`))
   .version(false)
   .help(false).argv;
 
 const [targetCommand] = argv._;
-if (targetCommand === undefined) {
-  showHelp();
+if (targetCommand === undefined ) {
+  showHelp(allCli);
 }

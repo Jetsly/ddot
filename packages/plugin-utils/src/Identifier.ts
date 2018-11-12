@@ -1,12 +1,14 @@
 // tslint:disable-next-line:no-namespace
 export namespace Interfaces {
-  export interface Icli {
+  export interface Icli<T> {
     /** command name */
     readonly command: string;
     /** command describe */
     readonly describe: string;
+    /** command builder */
+    readonly builder?: any;
     /** command handler */
-    handler: (argv: object) => void;
+    handler: (argv: T) => void;
   }
 
   export interface IProcess {

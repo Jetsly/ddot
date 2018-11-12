@@ -8,4 +8,12 @@ export * from './path';
 
 export const ddotContainer = new Container();
 
-export const pluginsCfg = pluginName => `CONFIG:${pluginName}`;
+/**
+ * 延迟等待
+ * @param time 毫秒数
+ */
+export const delay = time =>
+  new Promise(resolve => setTimeout(() => resolve(), time));
+
+export const CFG_KEY = pluginName => `CONFIG:KEY:${pluginName}`;
+export const PLUGIN_CFG_KEY = pluginName => `CONFIG:PLUGIN:${pluginName}`;
