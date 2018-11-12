@@ -2,7 +2,6 @@ import {
   CONFIG_KEYS,
   Container,
   Interfaces,
-  TYPES,
   utils,
 } from '@ddot/plugin-utils';
 import webpack from 'webpack';
@@ -18,7 +17,7 @@ interface IArgv {
   port: number;
 }
 @Container.injectable()
-class DevCommand implements Interfaces.Icli<IArgv> {
+export default class DevCommand implements Interfaces.Icli<IArgv> {
   @Container.inject(CONFIG_KEYS.PLUGIN_CFG_KEY(pluginsName))
   public config: IConfig;
   public get command() {
@@ -53,4 +52,3 @@ class DevCommand implements Interfaces.Icli<IArgv> {
     return config;
   }
 }
-Container.main.bind<Interfaces.Icli<any>>(TYPES.Icli).to(DevCommand);

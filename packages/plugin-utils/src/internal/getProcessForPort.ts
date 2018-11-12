@@ -1,6 +1,5 @@
 import chalk from 'chalk';
 import { execSync } from 'child_process';
-import path from 'path';
 
 const execOptions: {
   encoding: string;
