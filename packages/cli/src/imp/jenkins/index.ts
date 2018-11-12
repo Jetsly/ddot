@@ -1,11 +1,9 @@
 import {
-  CFG_KEY,
-  ddotContainer,
-  delay,
-  inject,
-  injectable,
+  CONFIG_KEYS,
+  Container,
   Interfaces,
   TYPES,
+  utils,
 } from '@ddot/plugin-utils';
 import { request } from 'https';
 import { createPromptModule } from 'inquirer';
@@ -26,9 +24,9 @@ export interface IJenkinsConfig {
 const COMMAND = 'jenkins';
 const JENKINS_TOKEN = 'JENKINS_TOKEN';
 
-@injectable()
+@Container.injectable()
 class JenkinsCommand implements Interfaces.Icli<IArgv> {
-  @inject(CFG_KEY(COMMAND))
+  @Container.inject(CONFIG_KEYS.CFG_KEY(COMMAND))
   public config: IJenkinsConfig;
   public get command() {
     return `${COMMAND} [jobName]`;
@@ -106,7 +104,7 @@ class JenkinsCommand implements Interfaces.Icli<IArgv> {
       if (result === 'FAILURE' || Date.now() - now > 1000 * 5 * 60) {
         return false;
       }
-      await delay(500);
+      await utils.delay(500);
       if (result === 'SUCCESS') {
         return true;
       }
@@ -164,5 +162,5 @@ class JenkinsCommand implements Interfaces.Icli<IArgv> {
     });
   }
 }
-ddotContainer.bind<Interfaces.Icli<any>>(TYPES.Icli).to(JenkinsCommand);
-ddotContainer.bind(CFG_KEY(COMMAND)).toConstantValue(undefined);
+Container.main.bind<Interfaces.Icli<any>>(TYPES.Icli).to(JenkinsCommand);
+Container.main.bind(CONFIG_KEYS.CFG_KEY(COMMAND)).toConstantValue(undefined);

@@ -1,11 +1,5 @@
-import {
-  CFG_KEY,
-  ddotContainer,
-  Interfaces,
-  PLUGIN_CFG_KEY,
-  TYPES,
-} from '@ddot/plugin-utils';
-import { blue, green, red } from 'chalk';
+import { CONFIG_KEYS, Container, Interfaces, TYPES } from '@ddot/plugin-utils';
+import chalk from 'chalk';
 import * as cliui from 'cliui';
 import * as cosmiconfig from 'cosmiconfig';
 import * as resolveCwd from 'resolve-cwd';
@@ -26,7 +20,7 @@ export const loadCfg: (name: string) => { config: IConfig } = name => {
 export const loadConfig: (cfg: IConfig) => void = cfg => {
   const { plugins, ...keys } = cfg;
   Object.keys(keys).forEach(key => {
-    ddotContainer.rebind(CFG_KEY(key)).toConstantValue(cfg[key]);
+    Container.main.rebind(CONFIG_KEYS.CFG_KEY(key)).toConstantValue(cfg[key]);
   });
 };
 
@@ -34,15 +28,17 @@ export const loadPlugins = (cfg: IConfig) => {
   cfg.plugins.forEach(plugin => {
     const [name, values] = Array.isArray(plugin) ? plugin : [plugin, {}];
     require(resolveCwd(name));
-    ddotContainer.bind(PLUGIN_CFG_KEY(name)).toConstantValue(values);
+    Container.main
+      .bind(CONFIG_KEYS.PLUGIN_CFG_KEY(name))
+      .toConstantValue(values);
   });
 };
 
 export const getAllCli: () => Array<Interfaces.Icli<any>> = () => {
-  if (!ddotContainer.isBound(TYPES.Icli)) {
+  if (!Container.main.isBound(TYPES.Icli)) {
     return [];
   }
-  return ddotContainer.getAll<Interfaces.Icli<any>>(TYPES.Icli);
+  return Container.main.getAll<Interfaces.Icli<any>>(TYPES.Icli);
 };
 
 export const showHelp = (allcli: Array<Interfaces.Icli<any>>) => {
@@ -58,7 +54,7 @@ export const showHelp = (allcli: Array<Interfaces.Icli<any>>) => {
   allcli.forEach(cli => {
     ui.div(
       {
-        text: green(cli.command.split(' ')[0]),
+        text: chalk.green(cli.command.split(' ')[0]),
         width: 14,
         padding: [0, 0, 0, 4],
       },
@@ -68,7 +64,9 @@ export const showHelp = (allcli: Array<Interfaces.Icli<any>>) => {
     );
   });
   ui.div({
-    text: `run ${blue(`${moduleName} [command]`)} for a specific command.`,
+    text: `run ${chalk.blue(
+      `${moduleName} [command]`
+    )} for a specific command.`,
     padding: [1, 0, 2, 2],
   });
   process.stdout.write(ui.toString());

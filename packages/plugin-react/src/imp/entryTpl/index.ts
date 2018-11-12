@@ -1,6 +1,4 @@
 import {
-  ddotContainer,
-  injectable,
   Interfaces,
   path,
   TYPES

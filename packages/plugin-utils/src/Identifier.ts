@@ -10,12 +10,13 @@ export namespace Interfaces {
     /** command handler */
     handler: (argv: T) => void;
   }
-
-  export interface IProcess {
-    next();
-  }
 }
 
 export const TYPES = {
   Icli: Symbol('Icli'),
+};
+
+export const CONFIG_KEYS = {
+  CFG_KEY: pluginName => `CONFIG:KEY:${pluginName}`,
+  PLUGIN_CFG_KEY: pluginName => `CONFIG:PLUGIN:${pluginName}`,
 };

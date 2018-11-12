@@ -1,43 +1,56 @@
 import {
-  ddotContainer,
-  injectable,
+  CONFIG_KEYS,
+  Container,
   Interfaces,
   TYPES,
+  utils,
 } from '@ddot/plugin-utils';
 import webpack from 'webpack';
 import * as Config from 'webpack-chain';
-import * as webpackbar from 'webpackbar'
-import { cfg } from '../utils';
+import * as webpackbar from 'webpackbar';
+import { IConfig, pluginsName } from '../utils';
 
 import * as Koa from 'koa';
 import webpackMiddle from 'webpack-dev-middleware';
 
 const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 8000;
-
-@injectable()
-class DevCommand implements Interfaces.Icli {
+interface IArgv {
+  port: number;
+}
+@Container.injectable()
+class DevCommand implements Interfaces.Icli<IArgv> {
+  @Container.inject(CONFIG_KEYS.PLUGIN_CFG_KEY(pluginsName))
+  public config: IConfig;
   public get command() {
     return 'dev';
   }
   public get describe() {
     return 'start a dev server for development';
   }
-  private app
+  private app;
   constructor() {
     this.app = new Koa();
   }
-  public async handler(argv: object) {
-    // const port = await choosePort(DEFAULT_PORT);
-    // this.app.listen(3000);
-    const config = this.Config
-    console.log(config.toConfig());
+  public get builder() {
+    return {
+      port: {
+        default: 8000,
+      },
+    };
   }
-  private get Config(){
+  public async handler(argv: IArgv) {
+    const port = await utils.choosePort(argv.port);
+    if (!port) {
+      return;
+    }
+    this.app.listen(port);
+    const config = this.Config;
+  }
+  private get Config() {
     const config = new Config();
-    config.plugin('progress').use(webpackbar)
-    cfg.info.chainWebpack(config, { webpack });
-    
-    return config
+    config.plugin('progress').use(webpackbar);
+    this.config.chainWebpack(config, { webpack });
+    return config;
   }
 }
-ddotContainer.bind<Interfaces.Icli>(TYPES.Icli).to(DevCommand);
+Container.main.bind<Interfaces.Icli<any>>(TYPES.Icli).to(DevCommand);

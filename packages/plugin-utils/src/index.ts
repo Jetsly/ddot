@@ -1,19 +1,22 @@
-import { Container } from 'inversify';
+import {
+  Container as MainContainer,
+  ContainerModule,
+  inject,
+  injectable,
+} from 'inversify';
 import 'reflect-metadata';
-export { ContainerModule, injectable, inject } from 'inversify';
 
 export * from './internal';
 export * from './Identifier';
 export * from './path';
 
-export const ddotContainer = new Container();
+const main = new MainContainer();
 
-/**
- * 延迟等待
- * @param time 毫秒数
- */
-export const delay = time =>
-  new Promise(resolve => setTimeout(() => resolve(), time));
+export const Container = {
+  main,
+  ContainerModule,
+  injectable,
+  inject,
+};
 
-export const CFG_KEY = pluginName => `CONFIG:KEY:${pluginName}`;
-export const PLUGIN_CFG_KEY = pluginName => `CONFIG:PLUGIN:${pluginName}`;
+export default Container;
