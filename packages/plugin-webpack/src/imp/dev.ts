@@ -1,27 +1,20 @@
-import { CONFIG_KEYS, Container, Interfaces, utils } from '@ddot/plugin-utils';
-import webpack from 'webpack';
-import { chainConfig, IConfig, pluginsName } from '../utils';
+import { Container, Interfaces, utils } from '@ddot/plugin-utils';
+import { ip } from 'address';
+import { fatal } from 'signale';
+import * as webpack from 'webpack';
+import * as devMiddleware from 'webpack-dev-middleware';
+import { chainConfig } from '../utils';
 
-import * as Koa from 'koa';
-import webpackMiddle from 'webpack-dev-middleware';
-
-const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 8000;
 interface IArgv {
   port: number;
 }
 @Container.injectable()
 export default class DevCommand implements Interfaces.Icli<IArgv> {
-  @Container.inject(CONFIG_KEYS.PLUGIN_CFG_KEY(pluginsName))
-  public config: IConfig;
   public get command() {
     return 'dev';
   }
   public get describe() {
     return 'start a dev server for development';
-  }
-  private app;
-  constructor() {
-    this.app = new Koa();
   }
   public get builder() {
     return {
@@ -35,12 +28,32 @@ export default class DevCommand implements Interfaces.Icli<IArgv> {
     if (!port) {
       return;
     }
-    const config = this.Config;
-    console.log(config.toConfig());
-  }
-  private get Config() {
-    const config = chainConfig();
-    this.config.chainWebpack(config, { webpack });
-    return config;
+    const config = chainConfig('development');
+    const fastify = require('fastify')();
+    config.plugin('friendly-errors').tap(args => [
+      {
+        ...args[0],
+        compilationSuccessInfo: {
+          messages: [
+            [
+              `App running at:`,
+              `  - Local:    http://localhost:${port}`,
+              `  - Network:  http://${ip()}:${port}`,
+            ].join('\n'),
+          ],
+        },
+      },
+    ]);
+    const compiler = webpack(config.toConfig());
+    const instance = devMiddleware(compiler, {
+      logLevel: 'silent',
+    });
+    fastify.use(instance);
+    // fastify.use(require('webpack-hot-middleware')(compiler));
+    fastify.listen(port, '0.0.0.0', (err) => {
+      if (err) {
+        fatal(err);
+      }
+    });
   }
 }

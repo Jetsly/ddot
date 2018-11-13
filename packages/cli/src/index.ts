@@ -1,20 +1,16 @@
 import chalk from 'chalk';
-import { error } from 'signale';
+import { warn } from 'signale';
 import { argv, usage } from 'yargs';
 import {
   getAllCli,
   getCommandName,
   loadCfg,
-  loadConfig,
   loadPlugins,
   moduleName,
   showHelp,
 } from './utils';
 
-import './imp/jenkins';
-
 const { config } = loadCfg(moduleName);
-loadConfig(config);
 loadPlugins(config);
 const allCli = getAllCli();
 const cmd = allCli
@@ -41,12 +37,15 @@ try {
       : allCli;
     if (clilist.length) {
       showHelp(clilist, isHelp);
-    } else {
+    } else if (allCli.length > 0) {
       throw new RangeError();
     }
-  } else if (allCli.filter(({ command }) => getCommandName(command) === name).length === 0) {
+  } else if (
+    allCli.filter(({ command }) => getCommandName(command) === name).length ===
+    0
+  ) {
     throw new RangeError();
   }
 } catch (err) {
-  error(`Command ${chalk.cyan(isHelp ? option : name)} does not exists`);
+  warn(`Command ${chalk.cyan(isHelp ? option : name)} does not exists`);
 }

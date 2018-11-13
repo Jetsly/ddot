@@ -7,7 +7,6 @@ import {
 } from '@ddot/plugin-utils';
 import { request } from 'https';
 import { createPromptModule } from 'inquirer';
-import { stringify } from 'querystring';
 import { exec } from 'shelljs';
 import { error, Signale } from 'signale';
 
@@ -27,8 +26,9 @@ const JENKINS_TOKEN = 'JENKINS_TOKEN';
 
 @Container.injectable()
 class JenkinsCommand implements Interfaces.Icli<IArgv> {
-  @Container.inject(CONFIG_KEYS.CFG_KEY(COMMAND))
-  public config: IJenkinsConfig;
+  public get config() {
+    return Container.getCfg<IJenkinsConfig>(COMMAND);
+  }
   public get command() {
     return `${COMMAND} [jobName]`;
   }
@@ -165,4 +165,3 @@ class JenkinsCommand implements Interfaces.Icli<IArgv> {
   }
 }
 Container.main.bind<Interfaces.Icli<any>>(TYPES.Icli).to(JenkinsCommand);
-Container.main.bind(CONFIG_KEYS.CFG_KEY(COMMAND)).toConstantValue(undefined);

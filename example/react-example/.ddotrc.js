@@ -1,13 +1,13 @@
 module.exports = {
   plugins: [
-    '@ddot/ddot-plugin-react',
+    'plugin-react',
     [
-      '@ddot/ddot-plugin-webpack',
+      'plugin-webpack',
       {
-        chainWebpack(config, { webpack }) {
+        chainWebpack(config) {
           config
             .entry('index')
-            .add('src/index.js')
+            .add('./src/global.js')
             .end();
         },
       },

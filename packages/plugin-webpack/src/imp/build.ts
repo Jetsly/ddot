@@ -1,42 +1,71 @@
-import {
-  CONFIG_KEYS,
-  Container,
-  Interfaces,
-} from '@ddot/plugin-utils';
-import webpack from 'webpack';
-import * as Config from 'webpack-chain';
-import * as webpackbar from 'webpackbar';
-import { IConfig, pluginsName } from '../utils';
+import { Container, Interfaces } from '@ddot/plugin-utils';
+import chalk from 'chalk';
+import * as cliui from 'cliui';
+import * as filesize from 'filesize';
+import { basename, dirname, join } from 'path';
+import { fatal } from 'signale';
+import * as webpack from 'webpack';
+import { chainConfig, gzipSize } from '../utils';
+// tslint:disable-next-line:no-empty-interface
+interface IArgv {}
 
-import * as Koa from 'koa';
-
-interface IArgv {
-  port: number;
+function canReadAsset(asset) {
+  return (
+    /\.(js|css|html)$/.test(asset) &&
+    !/service-worker\.js/.test(asset) &&
+    !/precache-manifest\.[0-9a-f]+\.js/.test(asset)
+  );
 }
+
 @Container.injectable()
 export default class BuildCommand implements Interfaces.Icli<IArgv> {
-  @Container.inject(CONFIG_KEYS.PLUGIN_CFG_KEY(pluginsName))
-  public config: IConfig;
   public get command() {
     return 'build';
   }
   public get describe() {
     return 'building for production';
   }
-  private app;
-  constructor() {
-    this.app = new Koa();
-  }
-  public get builder() {
-    return {};
-  }
   public async handler(argv: IArgv) {
-    const config = this.Config;
-  }
-  private get Config() {
-    const config = new Config();
-    config.plugin('progress').use(webpackbar);
-    this.config.chainWebpack(config, { webpack });
-    return config;
+    const config = chainConfig('production');
+    const compiler = webpack(config.toConfig());
+    compiler.run((err, webpackStats) => {
+      if (err) {
+        fatal(err);
+      }
+      const buildFolder = compiler.options.output.path;
+      const assets: Array<{
+        folder: string;
+        name: string;
+        size: string;
+      }> = webpackStats
+        .toJson({ all: false, assets: true })
+        .assets.filter(asset => canReadAsset(asset.name))
+        .map(asset => {
+          return {
+            folder: join(basename(buildFolder), dirname(asset.name)),
+            name: basename(asset.name),
+            size: filesize(gzipSize(join(buildFolder, asset.name))),
+          };
+        });
+      const ui = cliui();
+      ui.div({
+        text: 'File sizes after gzip:',
+        padding: [0, 0, 1, 2],
+      });
+      assets.forEach(({ size, folder, name }) => {
+        ui.div(
+          {
+            text: size,
+            width: 15,
+            padding: [0, 0, 0, 4],
+          },
+          {
+            text: `${folder}/${chalk.blue(name)}`,
+          }
+        );
+      });
+      process.stdout.write(`${ui.toString()}\n`);
+      process.stdout.write(`\n`);
+    });
   }
 }

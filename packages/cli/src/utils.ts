@@ -3,13 +3,12 @@ import chalk from 'chalk';
 import * as cliui from 'cliui';
 import * as cosmiconfig from 'cosmiconfig';
 import * as resolveCwd from 'resolve-cwd';
-import { IJenkinsConfig } from './imp/jenkins';
+import { warn } from 'signale';
 
 export const moduleName = 'ddot';
 
 export interface IConfig {
-  jenkins: IJenkinsConfig;
-  plugins: string[];
+  plugins: Array<string | [string, any]>;
 }
 
 export const loadCfg: (name: string) => { config: IConfig } = name => {
@@ -17,20 +16,27 @@ export const loadCfg: (name: string) => { config: IConfig } = name => {
   return explorer.searchSync();
 };
 
-export const loadConfig: (cfg: IConfig) => void = cfg => {
-  const { plugins, ...keys } = cfg;
-  Object.keys(keys).forEach(key => {
-    Container.main.rebind(CONFIG_KEYS.CFG_KEY(key)).toConstantValue(cfg[key]);
-  });
+const getModuleId = name => {
+  const pluginNames = /plugin-(\w+)$/.exec(name);
+  return pluginNames ? pluginNames[1] : 'default';
 };
 
 export const loadPlugins = (cfg: IConfig) => {
   cfg.plugins.forEach(plugin => {
-    const [name, values] = Array.isArray(plugin) ? plugin : [plugin, {}];
-    require(resolveCwd(name));
-    Container.main
-      .bind(CONFIG_KEYS.PLUGIN_CFG_KEY(name))
-      .toConstantValue(values);
+    const [moduleId, value] = Array.isArray(plugin) ? plugin : [plugin, {}];
+    const pluginName = getModuleId(moduleId);
+    const pluginModule =
+      resolveCwd.silent(`@ddot/ddot-${moduleId}`) ||
+      resolveCwd.silent(moduleId) ||
+      resolveCwd(`${__dirname}/imp/${pluginName}/index`);
+    if (pluginModule) {
+      const serviceIdentifier = CONFIG_KEYS.PLUGIN_CFG_KEY(pluginName);
+      console.log(serviceIdentifier)
+      Container.main.bind(serviceIdentifier.trim()).toConstantValue(value);
+      require(pluginModule);
+    } else {
+      warn('not found plugin id: ' + moduleId);
+    }
   });
 };
 
@@ -66,7 +72,7 @@ export const showHelp = (
       Object.keys(builder).forEach(options => {
         ui.div(
           {
-            text: `--${chalk.green(options)}`,
+            text: `--${options}`,
             width: 14,
             padding: [0, 0, 0, 4],
           },
