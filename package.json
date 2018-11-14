@@ -1,7 +1,8 @@
 {
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "example/*"
   ],
   "license": "MIT",
   "devDependencies": {
@@ -51,7 +52,7 @@
   },
   "commitlint": {
     "extends": [
-      "@commitlint/config-lerna-scopes"
+      "@commitlint/config-conventional"
     ]
   }
 }
