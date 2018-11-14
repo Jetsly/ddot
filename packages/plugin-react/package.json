@@ -1,4 +1,5 @@
 {
+  "private": true,
   "name": "@ddot/ddot-plugin-react",
   "main": "lib/index.js",
   "version": "0.0.1",
