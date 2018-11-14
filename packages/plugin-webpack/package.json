@@ -44,6 +44,5 @@
   "scripts": {
     "build": "tsc",
     "watch": "npm run build && tsc -w"
-  },
-  "devDependencies": {}
+  }
 }
