@@ -1,5 +1,11 @@
 {
   "useWorkspaces": true,
+  "version": "independent",
+  "command": {
+    "publish": {
+      "conventionalCommits": true
+    }
+  },
   "changelog": {
     "labels": {
       "enhancement": ":rocket: Enhancement",
@@ -9,6 +15,5 @@
     "repo": "Jetsly/ddot",
     "cacheDir": ".changelog"
   },
-  "npmClient": "yarn",
-  "version": "0.0.1"
+  "npmClient": "yarn"
 }
