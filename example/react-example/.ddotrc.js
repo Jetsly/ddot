@@ -1,13 +1,13 @@
 module.exports = {
   plugins: [
-    'plugin-react',
+    'react',
     [
-      'plugin-webpack',
+      'webpack',
       {
         chainWebpack(config) {
           config
             .entry('index')
-            .add('./src/global.js')
+            .add('./src/index')
             .end();
         },
       },

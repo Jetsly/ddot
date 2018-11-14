@@ -6,10 +6,15 @@
   "devDependencies": {
     "@ddot/ddot-cli": "^0.0.1",
     "@ddot/ddot-plugin-react": "^0.0.1",
-    "@ddot/ddot-plugin-webpack": "^0.0.1"
+    "@ddot/ddot-plugin-webpack": "^0.0.1",
+    "react-hot-loader": "^4.3.12"
   },
   "scripts": {
     "start": "ddot dev",
     "build": "ddot build"
+  },
+  "dependencies": {
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3"
   }
 }

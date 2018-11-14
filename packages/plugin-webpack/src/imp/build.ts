@@ -5,9 +5,8 @@ import * as filesize from 'filesize';
 import { basename, dirname, join } from 'path';
 import { fatal } from 'signale';
 import * as webpack from 'webpack';
-import { chainConfig, gzipSize } from '../utils';
-// tslint:disable-next-line:no-empty-interface
-interface IArgv {}
+import chainConfig from '../config';
+import { gzipSize } from '../utils';
 
 function canReadAsset(asset) {
   return (
@@ -18,14 +17,14 @@ function canReadAsset(asset) {
 }
 
 @Container.injectable()
-export default class BuildCommand implements Interfaces.Icli<IArgv> {
+export default class BuildCommand implements Interfaces.Icli<{}> {
   public get command() {
     return 'build';
   }
   public get describe() {
     return 'building for production';
   }
-  public async handler(argv: IArgv) {
+  public async handler() {
     const config = chainConfig('production');
     const compiler = webpack(config.toConfig());
     compiler.run((err, webpackStats) => {

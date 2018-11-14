@@ -3,7 +3,7 @@ import { ip } from 'address';
 import { fatal } from 'signale';
 import * as webpack from 'webpack';
 import * as devMiddleware from 'webpack-dev-middleware';
-import { chainConfig } from '../utils';
+import chainConfig from '../config';
 
 interface IArgv {
   port: number;
@@ -30,27 +30,37 @@ export default class DevCommand implements Interfaces.Icli<IArgv> {
     }
     const config = chainConfig('development');
     const fastify = require('fastify')();
-    config.plugin('friendly-errors').tap(args => [
-      {
-        ...args[0],
-        compilationSuccessInfo: {
-          messages: [
-            [
-              `App running at:`,
-              `  - Local:    http://localhost:${port}`,
-              `  - Network:  http://${ip()}:${port}`,
-            ].join('\n'),
-          ],
+    const hasFriendError = config.plugins.has('friendly-errors');
+    if (hasFriendError) {
+      config.plugin('friendly-errors').tap(args => [
+        {
+          ...args[0],
+          compilationSuccessInfo: {
+            messages: [
+              [
+                `App running at:`,
+                `  - Local:    http://localhost:${port}`,
+                `  - Network:  http://${ip()}:${port}`,
+              ].join('\n'),
+            ],
+          },
         },
-      },
-    ]);
+      ]);
+    }
+    Object.keys(config.entryPoints.entries()).forEach(name => {
+      config.entry(name).add('webpack-hot-middleware/client');
+    });
     const compiler = webpack(config.toConfig());
     const instance = devMiddleware(compiler, {
-      logLevel: 'silent',
+      logLevel: hasFriendError ? 'silent' : 'info',
     });
     fastify.use(instance);
-    // fastify.use(require('webpack-hot-middleware')(compiler));
-    fastify.listen(port, '0.0.0.0', (err) => {
+    fastify.use(
+      require('webpack-hot-middleware')(compiler, {
+        log: false,
+      })
+    );
+    fastify.listen(port, '0.0.0.0', err => {
       if (err) {
         fatal(err);
       }

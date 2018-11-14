@@ -1,1 +1,2 @@
-import './imp/entryTpl'
+import './imp/entryTpl';
+

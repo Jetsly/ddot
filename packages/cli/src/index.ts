@@ -24,10 +24,11 @@ const cmd = allCli
     });
   }, usage(`Usage: $0 <command> [options]`))
   .version(false)
+  .showHelpOnFail(false)
   .help(false);
 
 // tslint:disable-next-line:no-unused-expression
-cmd.argv;
+cmd.parse();
 const [name, option] = argv._;
 const isHelp = name === 'help';
 try {

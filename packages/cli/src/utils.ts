@@ -18,7 +18,7 @@ export const loadCfg: (name: string) => { config: IConfig } = name => {
 
 const getModuleId = name => {
   const pluginNames = /plugin-(\w+)$/.exec(name);
-  return pluginNames ? pluginNames[1] : 'default';
+  return pluginNames ? pluginNames[1] : name;
 };
 
 export const loadPlugins = (cfg: IConfig) => {
@@ -27,11 +27,11 @@ export const loadPlugins = (cfg: IConfig) => {
     const pluginName = getModuleId(moduleId);
     const pluginModule =
       resolveCwd.silent(`@ddot/ddot-${moduleId}`) ||
+      resolveCwd.silent(`@ddot/ddot-plugin-${moduleId}`) ||
       resolveCwd.silent(moduleId) ||
       resolveCwd(`${__dirname}/imp/${pluginName}/index`);
     if (pluginModule) {
       const serviceIdentifier = CONFIG_KEYS.PLUGIN_CFG_KEY(pluginName);
-      console.log(serviceIdentifier)
       Container.main.bind(serviceIdentifier.trim()).toConstantValue(value);
       require(pluginModule);
     } else {

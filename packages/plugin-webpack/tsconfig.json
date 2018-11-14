@@ -2,6 +2,10 @@
   "extends": "../../tsconfig.common.json",
   "include": ["src/**/*.ts"],
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "webpack-chain": ["./webpack-chain.d.ts"],
+    },
     "outDir": "lib"
   }
 }
