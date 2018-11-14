@@ -26,8 +26,6 @@
     }
   },
   "scripts": {
-    "changelog": "lerna-changelog",
-    "build": "lerna run build",
     "docs:dev": "vuepress dev example/docs",
     "docs:build": "vuepress build example/docs",
     "test:react": "yarn workspace @example/react ddot dev",
