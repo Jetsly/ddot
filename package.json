@@ -1,8 +1,7 @@
 {
   "private": true,
   "workspaces": [
-    "packages/*",
-    "example/*"
+    "packages/*"
   ],
   "license": "MIT",
   "devDependencies": {
