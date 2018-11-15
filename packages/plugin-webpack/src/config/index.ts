@@ -3,15 +3,10 @@ import { existsSync } from 'fs';
 import { join } from 'path';
 import * as webpack from 'webpack';
 import * as Config from 'webpack-chain';
-import { addCfgSetting, isInteractive, setConfig } from '../utils';
+
+import { getCfgSetting, isInteractive, setConfig } from '../utils';
 
 const DEFAULT_INLINE_LIMIT = 10000;
-const DEFAULT_BROWSERS = [
-  '>1%',
-  'last 4 versions',
-  'Firefox ESR',
-  'not ie < 9',
-];
 
 const friendlyProgress: setConfig = config => {
   const { CLEAR_CONSOLE = '' } = process.env;
@@ -37,12 +32,15 @@ const setPublic: setConfig = config => {
       ],
     ]);
   }
-  config.plugin('html-webpack').use(require('html-webpack-plugin'));
+  config.plugin('html-webpack').use(require('html-webpack-plugin'),[{
+    template: join(__dirname, '../../tpl/document.ejs')
+  }]);
   config.plugin('hash-module').use(webpack.HashedModuleIdsPlugin);
 };
 
 const setCssRule: setConfig = config => {
   const devMode = process.env.NODE_ENV !== 'production';
+  const cfgset = getCfgSetting();
   config.plugin('mini-css').use(require('mini-css-extract-plugin'));
   const rule = config.module.rule('css').test(/\.(le|c)ss$/i);
   if (devMode) {
@@ -59,19 +57,25 @@ const setCssRule: setConfig = config => {
       plugins: () => [
         require('postcss-flexbugs-fixes'),
         require('autoprefixer')({
-          browsers: DEFAULT_BROWSERS,
+          browsers: cfgset.browserlist(),
           flexbox: 'no-2009',
         }),
       ],
     });
-  rule.use('less-loader').loader(require.resolve('less-loader'));
+  rule
+    .use('less-loader')
+    .loader(require.resolve('less-loader'))
+    .options({
+      javascriptEnabled: true,
+    });
 };
 
 export default function chainConfig(mode: 'development' | 'production') {
   process.env.NODE_ENV = mode;
   const config = new Config();
+  const cfgset = getCfgSetting();
   const devMode = process.env.NODE_ENV !== 'production';
-  config.mode(mode)
+  config.mode(mode);
   config.output.publicPath('/');
   config.output.hashDigestLength(8);
   config.optimization.splitChunks({
@@ -94,7 +98,17 @@ export default function chainConfig(mode: 'development' | 'production') {
   setCssRule(config);
 
   const compile = config.module.rule('compile').test(/\.tsx?$/i);
-  compile.use('ts-loader').loader(require.resolve('ts-loader'));
+  compile
+    .use('ts-loader')
+    .loader(require.resolve('ts-loader'))
+    .options({
+      getCustomTransformers: () => ({
+        before: [
+          require('ts-import-plugin')(cfgset.tsImportOption()),
+        ],
+      }),
+    });
+
   if (devMode) {
     config.plugin('hot-module').use(webpack.HotModuleReplacementPlugin);
     config.devtool('cheap-module-source-map');
@@ -117,10 +131,10 @@ export default function chainConfig(mode: 'development' | 'production') {
     ]);
     config.optimization
       .minimizer('css')
-      .use(require.resolve('optimize-css-assets-webpack-plugin'));
+      .use(require('optimize-css-assets-webpack-plugin'));
     config.optimization
       .minimizer('js')
-      .use(require.resolve('uglifyjs-webpack-plugin'), [
+      .use(require('uglifyjs-webpack-plugin'), [
         {
           cache: true,
           parallel: true,
@@ -145,7 +159,6 @@ export default function chainConfig(mode: 'development' | 'production') {
     .use('file-loader')
     .loader(require.resolve('file-loader'));
 
-  addCfgSetting(config);
-
+  cfgset.chainWebpack(config);
   return config;
 }
