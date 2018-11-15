@@ -18,6 +18,27 @@ const friendlyProgress: setConfig = config => {
     .use(require('friendly-errors-webpack-plugin'), [
       {
         clearConsole: CLEAR_CONSOLE !== 'none',
+        onErrors(severity, errors) {
+          const unOutputError = errors.filter(
+            err =>
+              err.module === undefined &&
+              err.type === 'module-not-found' &&
+              err.webpackError.dependencies &&
+              err.webpackError.dependencies.length &&
+              err.webpackError.dependencies[0].options
+          );
+          if (severity === 'error' && unOutputError.length) {
+            process.stdout.write(`This relative module was not found:\n\n`);
+            unOutputError
+              .map(err => ({
+                ...err,
+                module: err.webpackError.dependencies[0].options.request,
+              }))
+              .forEach(err =>
+                process.stdout.write(`* ${err.module} in ${err.file}`)
+              );
+          }
+        },
       },
     ]);
 };
@@ -32,9 +53,11 @@ const setPublic: setConfig = config => {
       ],
     ]);
   }
-  config.plugin('html-webpack').use(require('html-webpack-plugin'),[{
-    template: join(__dirname, '../../tpl/document.ejs')
-  }]);
+  config.plugin('html-webpack').use(require('html-webpack-plugin'), [
+    {
+      template: join(__dirname, '../../tpl/document.ejs'),
+    },
+  ]);
   config.plugin('hash-module').use(webpack.HashedModuleIdsPlugin);
 };
 
@@ -103,9 +126,7 @@ export default function chainConfig(mode: 'development' | 'production') {
     .loader(require.resolve('ts-loader'))
     .options({
       getCustomTransformers: () => ({
-        before: [
-          require('ts-import-plugin')(cfgset.tsImportOption()),
-        ],
+        before: [require('ts-import-plugin')(cfgset.tsImportOption())],
       }),
     });
 
@@ -145,7 +166,7 @@ export default function chainConfig(mode: 'development' | 'production') {
 
   config.module
     .rule('url')
-    .test(/\.(png|jpe?g|gif)$/i)
+    .test(/\.(png|jpe?g|gif|svg)$/i)
     .use('url-loader')
     .loader(require.resolve('url-loader'))
     .options({
