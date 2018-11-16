@@ -17,8 +17,10 @@
     "css-hot-loader": "^1.4.2",
     "css-loader": "^1.0.1",
     "fastify": "^1.13.0",
+    "fastify-http-proxy": "^0.8.0",
     "file-loader": "^2.0.0",
     "filesize": "^3.6.1",
+    "fork-ts-checker-webpack-plugin": "^0.4.15",
     "friendly-errors-webpack-plugin": "^1.7.0",
     "html-webpack-plugin": "^3.2.0",
     "less": "^3.8.1",
@@ -46,5 +48,8 @@
   "scripts": {
     "build": "tsc",
     "watch": "npm run build && tsc -w"
+  },
+  "devDependencies": {
+    "@types/webpack": "^4.4.19"
   }
 }

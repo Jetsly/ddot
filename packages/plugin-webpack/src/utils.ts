@@ -10,38 +10,72 @@ const DEFAULT_BROWSERS = [
   'Firefox ESR',
   'not ie < 9',
 ];
-const DEFAULT_TS_IMPORT_OPTION = [
-  {
-    libraryName: 'antd',
-    libraryDirectory: 'es',
-    style: true,
-  },
-];
+// const DEFAULT_TS_IMPORT_OPTION = [
+//   {
+//     libraryName: 'antd',
+//     libraryDirectory: 'es',
+//     style: true,
+//   },
+// ];
 
 export interface ICFG {
   chainWebpack: (config: Config) => void;
   fastify: (server: fastify.FastifyInstance) => void;
-  tsImportOption: () => [];
-  browserlist: () => [];
+  hot: boolean;
+  tsImportOption: Array<{
+    libraryName: string;
+    libraryDirectory: string;
+    style: string | boolean;
+  }>;
+  tsLoaderOption: {
+    transformers: {
+      before: [];
+      after: [];
+    };
+  };
+  browserlist: string[];
+  extraPostCSSPlugins: [];
+  alias: { [key: string]: string };
+  define: { [key: string]: string };
+  proxy: {
+    [key: string]: {
+      target: string;
+    };
+  };
 }
 // tslint:disable-next-line:no-var-requires
 export type setConfig = (config: Config) => void;
 export const pluginsName = 'webpack';
 export const isInteractive = process.stdout.isTTY;
-export function getCfgSetting() {
-  const cfg = Container.getCfg<ICFG>(pluginsName) || {};
+export function getCfgSetting(): ICFG {
+  const cfg = Container.getCfg<ICFG>(pluginsName) || {
+    tsLoaderOption: {
+      transformers: {
+        before: [],
+        after: [],
+      },
+    },
+  };
   return {
     // tslint:disable-next-line:no-empty
     chainWebpack(config) {},
     // tslint:disable-next-line:no-empty
     fastify(server) {},
-    tsImportOption() {
-      return DEFAULT_TS_IMPORT_OPTION;
-    },
-    browserlist() {
-      return DEFAULT_BROWSERS;
-    },
+    hot: true,
+    tsImportOption: [],
+    extraPostCSSPlugins: [],
+    browserlist: DEFAULT_BROWSERS,
+    alias: {},
+    define: {},
+    proxy: {},
     ...cfg,
+    tsLoaderOption: {
+      transformers: {
+        before: [],
+        after: [],
+      },
+      ...(cfg.tsLoaderOption || {}),
+    },
   };
 }
 export function gzipSize(filePath: string) {

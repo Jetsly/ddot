@@ -51,19 +51,24 @@ export default class DevCommand implements Interfaces.Icli<IArgv> {
         },
       ]);
     }
-    Object.keys(config.entryPoints.entries()).forEach(name => {
-      config.entry(name).add('webpack-hot-middleware/client');
-    });
+    const cfgsetting = getCfgSetting();
+    if (cfgsetting.hot) {
+      Object.keys(config.entryPoints.entries()).forEach(name => {
+        config.entry(name).add('webpack-hot-middleware/client');
+      });
+    }
     const compiler = webpack(config.toConfig());
     const instance = devMiddleware(compiler, {
       logLevel: hasFriendError ? 'silent' : 'info',
     });
     fastify.use(instance);
-    fastify.use(
-      require('webpack-hot-middleware')(compiler, {
-        log: false,
-      })
-    );
+    if (cfgsetting.hot) {
+      fastify.use(
+        require('webpack-hot-middleware')(compiler, {
+          log: false,
+        })
+      );
+    }
     fastify.setNotFoundHandler((request, reply) => {
       try {
         const filename = compiler.options.output.path + '/index.html';
@@ -84,7 +89,16 @@ export default class DevCommand implements Interfaces.Icli<IArgv> {
         reply.code(404).send(new Error('Not Found'));
       }
     });
-    getCfgSetting().fastify(fastify);
+    cfgsetting.fastify(fastify);
+    Object.keys(cfgsetting.proxy).forEach(prefix => {
+      const { target, ...rest } = cfgsetting.proxy[prefix];
+      fastify.register(require('fastify-http-proxy'), {
+        upstream: target,
+        prefix,
+        rewritePrefix: prefix,
+        ...rest,
+      });
+    });
     fastify.listen(port, '0.0.0.0', err => {
       if (err) {
         fatal(err);
