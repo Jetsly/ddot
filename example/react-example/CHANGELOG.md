@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.3](https://github.com/Jetsly/ddot/compare/@example/react@0.0.2...@example/react@0.0.3) (2018-11-16)
+
+
+### Bug Fixes
+
+* **ddot-plugin-webpack:** friendly-errors-webpack-plugin ([c402e71](https://github.com/Jetsly/ddot/commit/c402e71))
+
+
+### Features
+
+* **ddot-plugin-webpack:** export config ([c7e8463](https://github.com/Jetsly/ddot/commit/c7e8463))
+
+
+
+
+
 ## 0.0.2 (2018-11-15)
 
 
