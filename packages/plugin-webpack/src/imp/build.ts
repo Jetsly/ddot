@@ -26,7 +26,7 @@ export default class BuildCommand implements Interfaces.Icli<{}> {
   }
   public async handler() {
     const config = chainConfig('production');
-    
+
     const compiler = webpack(config.toConfig());
     compiler.run((err, webpackStats) => {
       if (err) {
@@ -47,25 +47,27 @@ export default class BuildCommand implements Interfaces.Icli<{}> {
             size: filesize(gzipSize(join(buildFolder, asset.name))),
           };
         });
-      const ui = cliui();
-      ui.div({
-        text: 'File sizes after gzip:',
-        padding: [0, 0, 1, 2],
-      });
-      assets.forEach(({ size, folder, name }) => {
-        ui.div(
-          {
-            text: size,
-            width: 15,
-            padding: [0, 0, 0, 4],
-          },
-          {
-            text: `${folder}/${chalk.blue(name)}`,
-          }
-        );
-      });
-      process.stdout.write(`${ui.toString()}\n`);
-      process.stdout.write(`\n`);
+      if (assets.length) {
+        const ui = cliui();
+        ui.div({
+          text: 'File sizes after gzip:',
+          padding: [0, 0, 1, 2],
+        });
+        assets.forEach(({ size, folder, name }) => {
+          ui.div(
+            {
+              text: size,
+              width: 15,
+              padding: [0, 0, 0, 4],
+            },
+            {
+              text: `${folder}/${chalk.blue(name)}`,
+            }
+          );
+        });
+        process.stdout.write(`${ui.toString()}\n`);
+        process.stdout.write(`\n`);
+      }
     });
   }
 }
