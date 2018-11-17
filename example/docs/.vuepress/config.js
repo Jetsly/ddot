@@ -1,5 +1,5 @@
 module.exports = {
   dest: './docs',
-  title: 'Hello VuePress',
-  description: 'Just playing around',
+  title: 'ddot',
+  description: '🌋 A lightweight registry command framework',
 };
