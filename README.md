@@ -1,8 +1,8 @@
 # ddot
 
-[![NPM version](https://img.shields.io/npm/v/ddot.svg?style=flat)](https://npmjs.org/package/ddot)
-[![Build Status](https://img.shields.io/travis/jetsly/ddot.svg?style=flat)](https://travis-ci.org/jetsly/ddot)
-[![NPM downloads](http://img.shields.io/npm/dm/ddot.svg?style=flat)](https://npmjs.org/package/ddot)
+[![NPM version](https://img.shields.io/npm/v/@ddot/ddot-cli.svg?style=flat)](https://npmjs.org/package/@ddot/ddot-cli)
+[![Build Status](https://img.shields.io/travis/jetsly/@ddot/ddot-cli.svg?style=flat)](https://travis-ci.org/jetsly/ddot)
+[![NPM downloads](http://img.shields.io/npm/dm/@ddot/ddot-cli.svg?style=flat)](https://npmjs.org/package/@ddot/ddot-cli)
 
 🌋 A lightweight registry command framework。
 
