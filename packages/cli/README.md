@@ -5,4 +5,16 @@
 [![NPM downloads](http://img.shields.io/npm/dm/@ddot/ddot-cli.svg?style=flat)](https://npmjs.org/package/@ddot/ddot-cli)
 
 A lightweight registry command framework。
- 
+
+## Getting Started
+
+```bash
+# Create application
+$ mkdir myapp && cd myapp && yarn init
+
+# Install deps
+$ yarn add @ddot/ddot-cli 
+
+# Start Cli
+$ ddot 
+```
