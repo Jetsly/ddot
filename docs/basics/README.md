@@ -1,3 +1,3 @@
-# Introduction
+# Basics
 
 - [Jenkins](Jenkins.md)
