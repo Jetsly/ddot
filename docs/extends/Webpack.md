@@ -1,5 +1,7 @@
 # Webpeck
 
+* `yarn add @ddot/ddot-plugin-webpack -D`
+
 ## run
 
 ```js
@@ -32,6 +34,21 @@ chainWebpack(config) {
     .add('./src/index')
     .end();
 },
+```
+
+#### tsImportOption
+
+add [options](https://github.com/Brooooooklyn/ts-import-plugin#options) for `ts-import-plugin`
+
+such as:
+```js
+tsImportOption: [
+  {
+    libraryName: 'antd',
+    libraryDirectory: 'es',
+    style: true,
+  },
+],
 ```
 
 #### proxy

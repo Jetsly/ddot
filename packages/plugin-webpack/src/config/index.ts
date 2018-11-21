@@ -13,7 +13,7 @@ const friendlyProgress: setConfig = config => {
   // / filter `Conflicting order between` warning
   config
     .plugin('filter-css-conflicting-warnings')
-    .use(require('../plugins/FilterCSSConflictingWarning.js').default);
+    .use(require('../plugins/FilterCSSWarning.js').default);
   config
     .plugin('friendly-errors')
     .use(require('friendly-errors-webpack-plugin'), [

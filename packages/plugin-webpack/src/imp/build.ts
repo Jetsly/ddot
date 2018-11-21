@@ -26,7 +26,6 @@ export default class BuildCommand implements Interfaces.Icli<{}> {
   }
   public async handler() {
     const config = chainConfig('production');
-
     const compiler = webpack(config.toConfig());
     compiler.run((err, webpackStats) => {
       if (err) {

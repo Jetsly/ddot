@@ -22,6 +22,8 @@ export interface ICFG {
   chainWebpack: (config: Config) => void;
   fastify: (server: fastify.FastifyInstance) => void;
   hot: boolean;
+  enableDll: boolean;
+  dll: { [key: string]: string };
   tsImportOption: Array<{
     libraryName: string;
     libraryDirectory: string;
@@ -46,6 +48,7 @@ export interface ICFG {
 // tslint:disable-next-line:no-var-requires
 export type setConfig = (config: Config) => void;
 export const pluginsName = 'webpack';
+export const dllName = 'ddot';
 export const isInteractive = process.stdout.isTTY;
 export function getCfgSetting(): ICFG {
   const cfg = Container.getCfg<ICFG>(pluginsName) || {
@@ -62,6 +65,8 @@ export function getCfgSetting(): ICFG {
     // tslint:disable-next-line:no-empty
     fastify(server) {},
     hot: true,
+    enableDll: false,
+    dll: {},
     tsImportOption: [],
     extraPostCSSPlugins: [],
     browserlist: DEFAULT_BROWSERS,
