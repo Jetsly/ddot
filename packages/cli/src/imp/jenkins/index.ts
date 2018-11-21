@@ -1,9 +1,4 @@
-import {
-  Container,
-  Interfaces,
-  TYPES,
-  utils,
-} from '@ddot/plugin-utils';
+import { Container, Interfaces, TYPES, utils } from '@ddot/plugin-utils';
 import { request } from 'https';
 import { createPromptModule } from 'inquirer';
 import { exec } from 'shelljs';
@@ -60,36 +55,34 @@ class JenkinsCommand implements Interfaces.Icli<IArgv> {
     if (this.config === undefined) {
       return error(`${COMMAND} config not set, please set ${COMMAND} config `);
     }
-    const { ok = false, branch = '', jobName = '', ...answer } = {
+    const { branch = '', jobName = '', ...answer } = {
       ...(await createPromptModule()(this.config.prompt(argv))),
       ...argv,
     };
-    if (ok) {
-      const scope = 'jenkins job';
-      const stepFormat = `[%d/4]`;
-      const interactive = new Signale({
-        interactive: true,
-        scope,
-      });
-      const { _ = ['jenkins'], $0 = '', ...params } = answer;
-      try {
-        interactive.await(`${stepFormat} - Get Next Job Id`, 1);
-        const numb = await this.nextBuildNumber(jobName);
-        interactive.await(`${stepFormat} - Invoke Job ID ${numb}`, 2);
-        const data = await this.toExec(params, jobName);
-        if (data) {
-          throw new Error(data);
-        }
-        interactive.await(`${stepFormat} - Wait Job ID ${numb} Done`, 3);
-        const status = await this.checkBuildStatus(jobName, numb);
-        if (status) {
-          interactive.success(`${stepFormat} - Job Done`, 4);
-        } else {
-          interactive.error(`${stepFormat} - Job fatal`, 4);
-        }
-      } catch (error) {
-        interactive.fatal(error);
+    const scope = 'jenkins job';
+    const stepFormat = `[%d/4]`;
+    const interactive = new Signale({
+      interactive: true,
+      scope,
+    });
+    const { _ = ['jenkins'], $0 = '', ...params } = answer;
+    try {
+      interactive.await(`${stepFormat} - Get Next Job Id`, 1);
+      const numb = await this.nextBuildNumber(jobName);
+      interactive.await(`${stepFormat} - Invoke Job ID ${numb}`, 2);
+      const data = await this.toExec(params, jobName);
+      if (data) {
+        throw new Error(data);
       }
+      interactive.await(`${stepFormat} - Wait Job ID ${numb} Done`, 3);
+      const status = await this.checkBuildStatus(jobName, numb);
+      if (status) {
+        interactive.success(`${stepFormat} - Job Done`, 4);
+      } else {
+        interactive.error(`${stepFormat} - Job fatal`, 4);
+      }
+    } catch (error) {
+      interactive.fatal(error);
     }
   }
   /**

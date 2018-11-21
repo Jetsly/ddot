@@ -9,7 +9,7 @@ Last, bind in Container
 
 `test-plugin`
 
-```js
+```ts
 import {
   Container,
   Interfaces,
@@ -35,12 +35,18 @@ Container.main.bind<Interfaces.Icli<any>>(TYPES.Icli).to(JenkinsCommand);
 
 ```
 
-Then, config .ddotrc.js file
+Then, config .ddotrc.ts file
 
-`.ddotrc.js`
+`.ddotrc.ts`
 
-```js
+```ts
 module.exports = {
-  plugins: ['./test-plugin`']
+  plugins: ['./test-plugin']
 }
+```
+
+Last, run command
+
+```shell
+$ ddot
 ```

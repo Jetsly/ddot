@@ -1,5 +1,5 @@
-const path = require('path');
-module.exports = {
+import { join } from 'path';
+export default {
   plugins: [
     'react',
     [
@@ -11,7 +11,7 @@ module.exports = {
           },
         },
         alias: {
-          config: path.join(__dirname, './src/config'),
+          config: join(__dirname, './src/config'),
         },
         define: {
           c: { a: 'c' },

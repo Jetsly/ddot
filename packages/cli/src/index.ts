@@ -7,10 +7,12 @@ import {
   loadCfg,
   loadPlugins,
   moduleName,
+  registerTs,
   showHelp,
 } from './utils';
 
-const { config } = loadCfg(moduleName);
+registerTs();
+const config = loadCfg(moduleName);
 loadPlugins(config);
 const allCli = getAllCli();
 const cmd = allCli

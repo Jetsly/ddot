@@ -3,17 +3,56 @@ import chalk from 'chalk';
 import * as cliui from 'cliui';
 import * as cosmiconfig from 'cosmiconfig';
 import * as resolveCwd from 'resolve-cwd';
-import { warn } from 'signale';
+import { fatal, warn } from 'signale';
 
 export const moduleName = 'ddot';
+const tsExt = '.ts';
 
 export interface IConfig {
   plugins: Array<string | [string, any]>;
 }
 
-export const loadCfg: (name: string) => { config: IConfig } = name => {
-  const explorer = cosmiconfig(name);
-  return explorer.searchSync();
+export const registerTs = () => {
+  const old = require.extensions[tsExt] || require.extensions['.js'];
+  require.extensions[tsExt] = (m: any, filename: string) => {
+    const ts = resolveCwd(`typescript`);
+    if (ts === null) {
+      fatal(new Error('Not found typescript module'));
+    }
+    const _compile = m._compile;
+    m._compile = function(code: string, fileName: string) {
+      const result = require(ts).transpileModule(code, {
+        filename,
+        reportDiagnostics: true,
+      });
+      return _compile.call(this, result.outputText, fileName);
+    };
+    return old(m, filename);
+  };
+};
+
+export const loadCfg: (name: string) => IConfig = (name = moduleName) => {
+  const explorer = cosmiconfig(name, {
+    searchPlaces: [
+      `.${name}rc`,
+      `.${name}rc.json`,
+      `.${name}rc.yaml`,
+      `.${name}rc.yml`,
+      `.${name}rc.js`,
+      `.${name}rc.ts`,
+      `${name}.config.js`,
+    ],
+    loaders: {
+      '.json': cosmiconfig.loadJson,
+      '.yaml': cosmiconfig.loadYaml,
+      '.yml': cosmiconfig.loadYaml,
+      '.js': cosmiconfig.loadJs,
+      [tsExt]: cosmiconfig.loadJs,
+      noExt: cosmiconfig.loadYaml,
+    },
+  });
+  const cfgModule = explorer.searchSync().config;
+  return cfgModule.default || cfgModule;
 };
 
 const getModuleId = name => {
@@ -21,21 +60,34 @@ const getModuleId = name => {
   return pluginNames ? pluginNames[1] : name;
 };
 
+const getModulePaths = ({ moduleId, pluginName }) => [
+  `@ddot/ddot-${moduleId}`,
+  `@ddot/ddot-plugin-${moduleId}`,
+  `${__dirname}/imp/${pluginName}/index`,
+  moduleId,
+];
 export const loadPlugins = (cfg: IConfig) => {
   cfg.plugins.forEach(plugin => {
     const [moduleId, value] = Array.isArray(plugin) ? plugin : [plugin, {}];
     const pluginName = getModuleId(moduleId);
-    const pluginModule =
-      resolveCwd.silent(`@ddot/ddot-${moduleId}`) ||
-      resolveCwd.silent(`@ddot/ddot-plugin-${moduleId}`) ||
-      resolveCwd.silent(moduleId) ||
-      resolveCwd(`${__dirname}/imp/${pluginName}/index`);
-    if (pluginModule) {
+    const modules = getModulePaths({ moduleId, pluginName })
+      .map(id => resolveCwd.silent(id))
+      .filter(has => has);
+    if (modules.length) {
       const serviceIdentifier = CONFIG_KEYS.PLUGIN_CFG_KEY(pluginName);
       Container.main.bind(serviceIdentifier.trim()).toConstantValue(value);
-      require(pluginModule);
+      require(modules[0]);
     } else {
-      warn('not found plugin id: ' + moduleId);
+      warn(`not found plugin id: ${moduleId}, paths in:`);
+      const ui = cliui();
+      const paths = getModulePaths({ moduleId, pluginName });
+      paths.forEach((path, idx) => {
+        ui.div({
+          text: `${idx === paths.length - 1 ? '└──' : '├──'}${path}`,
+          padding: [0, 0, 0, 5],
+        });
+      });
+      process.stdout.write(`${ui.toString()}\n`);
     }
   });
 };
@@ -114,7 +166,5 @@ export const showHelp = (
       padding: [1, 0, 1, 2],
     });
   }
-  // add enter to new line
-  process.stdout.write(`${ui.toString()}
-  `);
+  process.stdout.write(`${ui.toString()}\n`);
 };
