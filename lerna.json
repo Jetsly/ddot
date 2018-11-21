@@ -3,7 +3,12 @@
   "version": "independent",
   "command": {
     "publish": {
-      "conventionalCommits": true
+      "conventionalCommits": true,
+      "ignoreChanges": [
+        "docs",
+        "*.html",
+        "*.md"
+      ]
     }
   },
   "changelog": {
