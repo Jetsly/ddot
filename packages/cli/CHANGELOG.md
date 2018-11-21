@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.2](https://github.com/Jetsly/ddot/compare/@ddot/ddot-cli@0.0.1...@ddot/ddot-cli@0.0.2) (2018-11-21)
+
+
+### Features
+
+* **ddot-cli:** support ts ext config ([1f0b220](https://github.com/Jetsly/ddot/commit/1f0b220))
+
+
+
+
+
 ## 0.0.1 (2018-11-14)
 
 

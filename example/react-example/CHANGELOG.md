@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.4](https://github.com/Jetsly/ddot/compare/@example/react@0.0.3...@example/react@0.0.4) (2018-11-21)
+
+
+### Features
+
+* **ddot-cli:** support ts ext config ([1f0b220](https://github.com/Jetsly/ddot/commit/1f0b220))
+
+
+
+
+
 ## [0.0.3](https://github.com/Jetsly/ddot/compare/@example/react@0.0.2...@example/react@0.0.3) (2018-11-16)
 
 
