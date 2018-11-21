@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.5](https://github.com/Jetsly/ddot/compare/@ddot/ddot-plugin-webpack@0.0.4...@ddot/ddot-plugin-webpack@0.0.5) (2018-11-21)
+
+
+### Features
+
+* **ddot-plugin-webpack:** add dll plugin ([8c767ed](https://github.com/Jetsly/ddot/commit/8c767ed))
+
+
+
+
+
 ## [0.0.4](https://github.com/Jetsly/ddot/compare/@ddot/ddot-plugin-webpack@0.0.3...@ddot/ddot-plugin-webpack@0.0.4) (2018-11-21)
 
 
