@@ -4,7 +4,8 @@ cache:
   yarn: true
 
 before_script:
-  - npm run bootstrap -- --npm-client=yarn
+  - yarn lerna bootstrap
+  - yarn workspace @ddot/plugin-utils build
 
 node_js:
   - "8"
