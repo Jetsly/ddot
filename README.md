@@ -28,6 +28,6 @@ $ ddot
 
 ## Examples
 
-* [React](./example/react-example)
+* [React](https://github.com/Jetsly/ddot/tree/master/example/react-example)
 
 
