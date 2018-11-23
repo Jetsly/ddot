@@ -4,7 +4,6 @@ cache:
   yarn: true
 
 before_script:
-  - yarn lerna bootstrap
   - yarn workspace @ddot/plugin-utils build
 
 node_js:

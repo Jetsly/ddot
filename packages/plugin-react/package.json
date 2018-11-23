@@ -16,5 +16,8 @@
   "scripts": {
     "build": "tsc",
     "watch": "npm run build && tsc -w"
+  },
+  "devDependencies": {
+    "typescript": "^3.1.6"
   }
 }
