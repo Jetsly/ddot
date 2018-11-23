@@ -3,6 +3,9 @@ language: node_js
 cache:
   yarn: true
 
+before_script:
+  - npm run bootstrap -- --npm-client=yarn
+
 node_js:
   - "8"
   - "10"
