@@ -22,6 +22,17 @@ export default {
 
 ```
 
+#### title
+modify `document.title` for  [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin)
+
+such as:
+
+```js
+
+title: 'DDot App',
+
+```
+
 #### chainWebpack
 Extend or modify the webpack configuration via the API of `[webpack-chain](https://github.com/neutrinojs/webpack-chain)` obj
 

@@ -1,4 +1,6 @@
+import { resolve } from 'path';
 import * as Config from 'webpack-chain';
+import { sync } from 'find-up'
 import { getCfgSetting } from '../utils';
 
 const DEFAULT_INLINE_LIMIT = 10000;
@@ -36,6 +38,7 @@ export default (config: Config) => {
     });
   // ts
   const { transformers, ...restTsLoaderOption } = cfgset.tsLoaderOption;
+  
   const tsImport = cfgset.tsImportOption.length
     ? [require('ts-import-plugin')(cfgset.tsImportOption)]
     : [];
@@ -56,6 +59,7 @@ export default (config: Config) => {
     .plugin('fork-ts-checker')
     .use(require('fork-ts-checker-webpack-plugin'), [
       {
+        tsconfig: sync('tsconfig.json'),
         checkSyntacticErrors: true,
         formatter: 'codeframe',
       },

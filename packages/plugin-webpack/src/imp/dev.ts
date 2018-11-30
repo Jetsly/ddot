@@ -91,6 +91,7 @@ export default class DevCommand implements Interfaces.Icli<IArgv> {
       try {
         const filename = compiler.options.output.path + '/index.html';
         if (
+          !/hot-update/i.test(request.req.url) &&
           /get/i.test(request.req.method) &&
           ['text/html', '*/*'].filter(
             type => request.headers.accept.indexOf(type) > -1

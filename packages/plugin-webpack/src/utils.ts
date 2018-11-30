@@ -19,6 +19,7 @@ const DEFAULT_BROWSERS = [
 // ];
 
 export interface ICFG {
+  title: string;
   chainWebpack: (config: Config) => void;
   fastify: (server: fastify.FastifyInstance) => void;
   hot: boolean;
@@ -60,6 +61,7 @@ export function getCfgSetting(): ICFG {
     },
   };
   return {
+    title: '',
     // tslint:disable-next-line:no-empty
     chainWebpack(config) {},
     // tslint:disable-next-line:no-empty
