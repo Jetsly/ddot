@@ -51,7 +51,11 @@ export const loadCfg: (name: string) => IConfig = (name = moduleName) => {
       noExt: cosmiconfig.loadYaml,
     },
   });
-  const cfgModule = explorer.searchSync().config;
+  const result = explorer.searchSync();
+  if (result === null) {
+    throw new Error(`not found ${moduleName} config`);
+  }
+  const cfgModule = result.config;
   return cfgModule.default || cfgModule;
 };
 

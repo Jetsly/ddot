@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.2](https://github.com/Jetsly/ddot/compare/@ddot/plugin-utils@0.0.1...@ddot/plugin-utils@0.0.2) (2018-11-29)
+
+**Note:** Version bump only for package @ddot/plugin-utils
+
+
+
+
+
 ## 0.0.1 (2018-11-14)
 
 

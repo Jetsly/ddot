@@ -75,6 +75,7 @@ export default function chainConfig(mode: 'development' | 'production') {
   friendlyProgress(config);
   config.plugin('html-webpack').use(require('html-webpack-plugin'), [
     {
+      title: cfgset.title || 'DDot App',
       template: join(__dirname, '../../tpl/document.ejs'),
     },
   ]);

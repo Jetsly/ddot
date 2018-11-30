@@ -1,0 +1,11 @@
+language: node_js
+
+cache:
+  yarn: true
+
+before_script:
+  - yarn workspace @ddot/plugin-utils build
+
+node_js:
+  - "8"
+  - "10"

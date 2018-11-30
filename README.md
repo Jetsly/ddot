@@ -1,7 +1,7 @@
 # ddot
 
 [![NPM version](https://img.shields.io/npm/v/@ddot/ddot-cli.svg?style=flat)](https://npmjs.org/package/@ddot/ddot-cli)
-[![Build Status](https://img.shields.io/travis/jetsly/@ddot/ddot-cli.svg?style=flat)](https://travis-ci.org/jetsly/ddot)
+[![Build Status](https://img.shields.io/travis/Jetsly/ddot.svg?style=flat)](https://travis-ci.org/Jetsly/ddot)
 [![NPM downloads](http://img.shields.io/npm/dm/@ddot/ddot-cli.svg?style=flat)](https://npmjs.org/package/@ddot/ddot-cli)
 
 🌋 A lightweight registry command framework。
@@ -28,6 +28,6 @@ $ ddot
 
 ## Examples
 
-* [React](./example/react-example)
+* [React](https://github.com/Jetsly/ddot/tree/master/example/react-example)
 
 
