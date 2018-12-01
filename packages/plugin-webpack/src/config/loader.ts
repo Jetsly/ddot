@@ -1,6 +1,5 @@
-import { resolve } from 'path';
-import * as Config from 'webpack-chain';
 import { sync } from 'find-up'
+import * as Config from 'webpack-chain';
 import { getCfgSetting } from '../utils';
 
 const DEFAULT_INLINE_LIMIT = 10000;

@@ -45,6 +45,7 @@ const friendlyProgress: setConfig = config => {
 };
 
 export default function chainConfig(mode: 'development' | 'production') {
+  process.env.NODE_ENV = mode
   const config = new Config();
   const cfgset = getCfgSetting();
   config.mode(mode);
