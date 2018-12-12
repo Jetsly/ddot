@@ -4,8 +4,8 @@ export default {
     [
       'jenkins',
       {
-        hostName: 'jenkins.mundhana.com',
-        pathPrefix: '/job/mundhana/job',
+        hostName: 'jenkins.hello.com',
+        pathPrefix: '/job/job',
         prompt: ({ branch, jobName }) => [
           {
             type: 'input',
