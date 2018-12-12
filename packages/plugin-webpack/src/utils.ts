@@ -1,4 +1,3 @@
-import { Container } from '@ddot/plugin-utils';
 import * as fastify from 'fastify';
 import { readFileSync } from 'fs';
 import * as Config from 'webpack-chain';
@@ -17,14 +16,12 @@ const DEFAULT_BROWSERS = [
 //     style: true,
 //   },
 // ];
-
 export interface ICFG {
   title: string;
+  outputPath: string;
   chainWebpack: (config: Config) => void;
   fastify: (server: fastify.FastifyInstance) => void;
   hot: boolean;
-  enableDll: boolean;
-  dll: { [key: string]: string };
   tsImportOption: Array<{
     libraryName: string;
     libraryDirectory: string;
@@ -48,11 +45,12 @@ export interface ICFG {
 }
 // tslint:disable-next-line:no-var-requires
 export type setConfig = (config: Config) => void;
-export const pluginsName = 'webpack';
-export const dllName = 'ddot';
 export const isInteractive = process.stdout.isTTY;
-export function getCfgSetting(): ICFG {
-  const cfg = Container.getCfg<ICFG>(pluginsName) || {
+export function gzipSize(filePath: string) {
+  return gzipSync(readFileSync(filePath)).length;
+}
+export function getCfgSetting(opt): ICFG {
+  const cfg = opt || {
     tsLoaderOption: {
       transformers: {
         before: [],
@@ -61,7 +59,8 @@ export function getCfgSetting(): ICFG {
     },
   };
   return {
-    title: '',
+    title: 'DDot App',
+    outputPath: './dist',
     // tslint:disable-next-line:no-empty
     chainWebpack(config) {},
     // tslint:disable-next-line:no-empty
@@ -84,7 +83,4 @@ export function getCfgSetting(): ICFG {
       ...(cfg.tsLoaderOption || {}),
     },
   };
-}
-export function gzipSize(filePath: string) {
-  return gzipSync(readFileSync(filePath)).length;
 }

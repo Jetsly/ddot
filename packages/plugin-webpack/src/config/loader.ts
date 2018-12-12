@@ -1,12 +1,11 @@
-import { sync } from 'find-up'
+import { sync } from 'find-up';
 import * as Config from 'webpack-chain';
-import { getCfgSetting } from '../utils';
+import { ICFG } from '../utils';
 
 const DEFAULT_INLINE_LIMIT = 10000;
 
-export default (config: Config) => {
+export default (config: Config, cfgset: ICFG) => {
   const devMode = process.env.NODE_ENV !== 'production';
-  const cfgset = getCfgSetting();
   // css
   const cssRule = config.module.rule('css').test(/\.(le|c)ss$/i);
   if (devMode) {
@@ -37,7 +36,7 @@ export default (config: Config) => {
     });
   // ts
   const { transformers, ...restTsLoaderOption } = cfgset.tsLoaderOption;
-  
+
   const tsImport = cfgset.tsImportOption.length
     ? [require('ts-import-plugin')(cfgset.tsImportOption)]
     : [];

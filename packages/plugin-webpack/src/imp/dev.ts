@@ -1,58 +1,25 @@
-import { Container, Interfaces, utils } from '@ddot/plugin-utils';
+import { utils } from '@ddot/plugin-utils';
 import { ip } from 'address';
 import * as Fastify from 'fastify';
-import { createReadStream } from 'fs';
-import { join } from 'path';
 import { fatal } from 'signale';
 import * as webpack from 'webpack';
 import * as devMiddleware from 'webpack-dev-middleware';
 import chainConfig from '../config';
-import builddll from '../plugins/builddll';
 import { getCfgSetting } from '../utils';
 
-interface IArgv {
-  port: number;
-}
-@Container.injectable()
-export default class DevCommand implements Interfaces.Icli<IArgv> {
-  public get command() {
-    return 'dev';
-  }
-  public get describe() {
-    return 'start a dev server for development';
-  }
-  public get builder() {
-    return {
-      port: {
-        default: 8000,
-      },
-    };
-  }
-  public async handler(argv: IArgv) {
-    const port = await utils.choosePort(argv.port);
+const command = 'dev'; 
+export default function create(api, opt) {
+  api.cmd[command].describe = 'start a dev server for development';
+  api.cmd[command].apply = async () => {
+    const port = await utils.choosePort(api.argv.port || 8000);
     if (!port) {
       return;
     }
+    const setting = getCfgSetting(opt)
     const fastify = Fastify();
-    const cfgsetting = getCfgSetting();
-    const config = chainConfig('development');
-    if (cfgsetting.enableDll) {
-      const { dllDir, ...dllreferOptons } = await builddll(config);
-      config
-        .plugin('dll-reference')
-        .use(webpack.DllReferencePlugin, [dllreferOptons]);
-      config.plugin('html-webpack').tap(() => [
-        {
-          template: join(__dirname, '../../tpl/document.dll.ejs'),
-        },
-      ]);
-      fastify.get('/_dll/:path', (req, reply) => {
-        if (/.js$/.test(req.params.path)) {
-          reply.type('application/javascript; charset=UTF-8');
-        }
-        reply.send(createReadStream(join(dllDir, req.params.path), 'utf8'));
-      });
-    }
+    const config = chainConfig('development', setting, {
+      path: api.path,
+    });
     const hasFriendError = config.plugins.has('friendly-errors');
     if (hasFriendError) {
       config.plugin('friendly-errors').tap(args => [
@@ -70,7 +37,7 @@ export default class DevCommand implements Interfaces.Icli<IArgv> {
         },
       ]);
     }
-    if (cfgsetting.hot) {
+    if (setting.hot) {
       Object.keys(config.entryPoints.entries()).forEach(name => {
         config.entry(name).add('webpack-hot-middleware/client');
       });
@@ -80,7 +47,7 @@ export default class DevCommand implements Interfaces.Icli<IArgv> {
       logLevel: hasFriendError ? 'silent' : 'info',
     });
     fastify.use(instance);
-    if (cfgsetting.hot) {
+    if (setting.hot) {
       fastify.use(
         require('webpack-hot-middleware')(compiler, {
           log: false,
@@ -135,9 +102,9 @@ export default class DevCommand implements Interfaces.Icli<IArgv> {
       writeDirectory(compiler.options.output.publicPath || '/', outputPath);
       reply.res.end('</body></html>');
     });
-    cfgsetting.fastify(fastify);
-    Object.keys(cfgsetting.proxy).forEach(prefix => {
-      const { target, ...rest } = cfgsetting.proxy[prefix];
+    setting.fastify(fastify);
+    Object.keys(setting.proxy).forEach(prefix => {
+      const { target, ...rest } = setting.proxy[prefix];
       fastify.register(require('fastify-http-proxy'), {
         upstream: target,
         prefix,
@@ -150,5 +117,5 @@ export default class DevCommand implements Interfaces.Icli<IArgv> {
         fatal(err);
       }
     });
-  }
+  };
 }

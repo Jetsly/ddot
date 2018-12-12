@@ -33,6 +33,18 @@ title: 'DDot App',
 
 ```
 
+#### outputPath
+
+Configure the build [outputPath](https://webpack.js.org/configuration/output/#output-path) 
+
+such as:
+
+```js
+
+outputPath: './dist',
+
+```
+
 #### chainWebpack
 Extend or modify the webpack configuration via the API of `[webpack-chain](https://github.com/neutrinojs/webpack-chain)` obj
 

@@ -1,11 +1,12 @@
-import { path } from '@ddot/plugin-utils';
 import { existsSync } from 'fs';
-import { join } from 'path';
+import { join, resolve } from 'path';
 import * as Config from 'webpack-chain';
+import { ICFG } from '../../utils';
 
-export default (config: Config) => {
+export default (config: Config, cfgset: ICFG, { path }) => {
   const publicPath = join(path.cwd, 'public');
   const filename = '[name].[chunkhash]';
+  config.output.path(resolve(path.cwd, cfgset.outputPath));
   config.output.chunkFilename(`${filename}.js`);
   config.output.filename(`${filename}.js`);
   config.plugin('mini-css').use(require('mini-css-extract-plugin'), [

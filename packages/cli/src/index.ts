@@ -1,54 +1,49 @@
 import chalk from 'chalk';
+import * as cluster from 'cluster';
 import { warn } from 'signale';
-import { argv, usage } from 'yargs';
-import {
-  getAllCli,
-  getCommandName,
-  loadCfg,
-  loadPlugins,
-  moduleName,
-  registerTs,
-  showHelp,
-} from './utils';
+import * as parse from 'yargs-parser';
+import './_register';
+import { checkPluginExsit } from './check';
+import * as config from './config';
+import { loadCfg, showHelp } from './utils';
 
-registerTs();
-const config = loadCfg(moduleName);
-loadPlugins(config);
-const allCli = getAllCli();
-const cmd = allCli
-  .reduce((_, cli) => {
-    const { command, describe, builder, handler } = cli;
-    return _.command({
-      command,
-      describe,
-      builder,
-      handler: handler.bind(cli),
-    });
-  }, usage(`Usage: $0 <command> [options]`))
-  .version(false)
-  .showHelpOnFail(false)
-  .help(false);
-
-// tslint:disable-next-line:no-unused-expression
-cmd.parse();
-const [name, option] = argv._;
-const isHelp = name === 'help';
-try {
-  if (name === undefined || isHelp) {
-    const clilist = isHelp
-      ? allCli.filter(({ command }) => getCommandName(command) === option)
-      : allCli;
-    if (clilist.length) {
-      showHelp(clilist, isHelp);
-    } else if (allCli.length > 0) {
-      throw new RangeError();
+const { _, ...argv } = parse(process.argv.slice(2));
+const cliProxy = {
+  ...config,
+  argv,
+  cmd: new Proxy(
+    {},
+    {
+      get(target, propKey) {
+        if (target[propKey] === undefined) {
+          Reflect.set(target, propKey, {});
+        }
+        return target[propKey];
+      },
     }
-  } else if (
-    allCli.filter(({ command }) => getCommandName(command) === name).length ===
-    0
-  ) {
-    throw new RangeError();
+  ),
+};
+const cfg = loadCfg();
+cfg.plugins.forEach(plugin => {
+  const [moduleId, value] = Array.isArray(plugin) ? plugin : [plugin, {}];
+  const moduleFunc = checkPluginExsit(moduleId, cluster.isMaster);
+  (Array.isArray(moduleFunc) ? moduleFunc : [moduleFunc]).forEach(func => {
+    func(cliProxy, value);
+  });
+});
+const { cmd } = cliProxy;
+const name = _[0];
+if (cluster.isMaster) {
+  if (_.length === 0) {
+    showHelp(cmd);
+  } else if (cmd[name]) {
+    // cluster.fork();
+    cmd[name].apply()
+  } else {
+    warn(`Command ${chalk.cyan(name)} does not exists`);
   }
-} catch (err) {
-  warn(`Command ${chalk.cyan(isHelp ? option : name)} does not exists`);
+} else {
+  // Promise.resolve(0)
+  //   .then(() => cmd[name].apply())
+    // .then(() => cluster.worker.destroy('1'));
 }
