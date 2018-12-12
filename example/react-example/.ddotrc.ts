@@ -8,18 +8,6 @@ export default {
         pathPrefix: '/job/job',
         prompt: ({ branch, jobName }) => [
           {
-            type: 'input',
-            name: 'jobName',
-            messages: 'jobName',
-            default: 'console-flow-pipeline',
-          },
-          {
-            type: 'list',
-            name: 'Project',
-            messages: 'which project to deploy',
-            choices: () => ['portal-admin', 'lender-admin'],
-          },
-          {
             type: 'list',
             name: 'Branch',
             messages: 'which branch to deploy',

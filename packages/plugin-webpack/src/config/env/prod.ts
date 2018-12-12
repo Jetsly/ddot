@@ -5,7 +5,7 @@ import { ICFG } from '../../utils';
 
 export default (config: Config, cfgset: ICFG, { path }) => {
   const publicPath = join(path.cwd, 'public');
-  const filename = '[name].[chunkhash]';
+  const filename = '[name].[contenthash]';
   config.output.path(resolve(path.cwd, cfgset.outputPath));
   config.output.chunkFilename(`${filename}.js`);
   config.output.filename(`${filename}.js`);
