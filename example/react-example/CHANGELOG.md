@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.10](https://github.com/Jetsly/ddot/compare/react@0.0.9...react@0.0.10) (2018-12-13)
+
+**Note:** Version bump only for package react
+
+
+
+
+
 ## 0.0.9 (2018-12-13)
 
 
