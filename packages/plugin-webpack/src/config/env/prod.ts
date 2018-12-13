@@ -25,7 +25,7 @@ export default (config: Config, cfgset: ICFG, { path }) => {
     ]);
   }
   config.plugin('clean-webpack').use(require('clean-webpack-plugin'), [
-    ['dist'],
+    [cfgset.outputPath],
     {
       root: path.cwd,
     },
