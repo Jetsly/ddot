@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.5](https://github.com/Jetsly/ddot/compare/@ddot/ddot-cli@0.0.4...@ddot/ddot-cli@0.0.5) (2018-12-13)
+
+
+### Bug Fixes
+
+* **ddot-cli:** fix load abs path ([42d7056](https://github.com/Jetsly/ddot/commit/42d7056))
+
+
+### Features
+
+* **ddot-cli:** remove ioc ([aae1dd0](https://github.com/Jetsly/ddot/commit/aae1dd0))
+
+
+
+
+
 ## [0.0.4](https://github.com/Jetsly/ddot/compare/@ddot/ddot-cli@0.0.3...@ddot/ddot-cli@0.0.4) (2018-11-30)
 
 
