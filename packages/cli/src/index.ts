@@ -5,7 +5,7 @@ import * as parse from 'yargs-parser';
 import './_register';
 import { checkPluginExsit } from './check';
 import * as config from './config';
-import { loadCfg, showHelp } from './utils';
+import { isFunction, loadCfg, showHelp } from './utils';
 
 const { _, ...argv } = parse(process.argv.slice(2));
 const cliProxy = {
@@ -28,7 +28,9 @@ cfg.plugins.forEach(plugin => {
   const [moduleId, value] = Array.isArray(plugin) ? plugin : [plugin, {}];
   const moduleFunc = checkPluginExsit(moduleId, cluster.isMaster);
   (Array.isArray(moduleFunc) ? moduleFunc : [moduleFunc]).forEach(func => {
-    func(cliProxy, value);
+    if (isFunction(func)) {
+      func(cliProxy, value);
+    }
   });
 });
 const { cmd } = cliProxy;
@@ -38,12 +40,12 @@ if (cluster.isMaster) {
     showHelp(cmd);
   } else if (cmd[name]) {
     // cluster.fork();
-    cmd[name].apply()
+    cmd[name].apply();
   } else {
     warn(`Command ${chalk.cyan(name)} does not exists`);
   }
 } else {
   // Promise.resolve(0)
   //   .then(() => cmd[name].apply())
-    // .then(() => cluster.worker.destroy('1'));
+  // .then(() => cluster.worker.destroy('1'));
 }

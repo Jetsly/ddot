@@ -1,6 +1,7 @@
 import chalk from 'chalk';
 import * as cliui from 'cliui';
 import * as cosmiconfig from 'cosmiconfig';
+import { join } from 'path';
 
 export const moduleName = 'ddot';
 export const tsExt = '.ts';
@@ -16,6 +17,9 @@ export const getModulePaths = ({ moduleId }) => [
 
 export const resolveCwd = moduleId => {
   try {
+    if (moduleId.indexOf('./') > -1) {
+      return require.resolve(join(process.cwd(), moduleId));
+    }
     return require.resolve(moduleId);
   } catch (error) {
     return null;

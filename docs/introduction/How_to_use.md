@@ -8,15 +8,15 @@ Then, export default a function
 `test-plugin`
 
 ```ts
-export default function create(api,opt){
+export default function create(api, opt) {
   // command name
-  const command = '';
-  //command describe
-  api.cmd[command].describe = 'describe'
+  const command = '333';
+  // command describe
+  api.cmd[command].describe = 'describe';
 
-  api.cmd[command].apply= function(){
-    //do something...
-  }
+  api.cmd[command].apply = function apply() {
+    // do somethings
+  };
 }
 
 ```

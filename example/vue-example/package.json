@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@example/vue",
+  "name": "vue",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT"

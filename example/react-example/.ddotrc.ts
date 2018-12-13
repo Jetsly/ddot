@@ -1,6 +1,7 @@
 import { join } from 'path';
 export default {
   plugins: [
+    './test-plugin',
     [
       'jenkins',
       {

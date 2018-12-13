@@ -30,6 +30,7 @@
     "test": "jest --coverage",
     "dev:react": "yarn workspace @example/react ddot dev",
     "rm:lib": "rm -rf ./packages/*/lib",
+    "build:utils":"tsc -p packages/plugin-utils",
     "watch-cli": "tsc -w -p packages/cli",
     "watch-plugin-utils": "tsc -w -p packages/plugin-utils",
     "watch-plugin-webpack": "tsc -w -p packages/plugin-webpack",
