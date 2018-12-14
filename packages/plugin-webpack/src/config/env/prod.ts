@@ -28,6 +28,7 @@ export default (config: Config, cfgset: ICFG, { path }) => {
     [cfgset.outputPath],
     {
       root: path.cwd,
+      allowExternal: true,
     },
   ]);
   config.optimization
