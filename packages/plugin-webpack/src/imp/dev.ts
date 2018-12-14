@@ -44,6 +44,7 @@ export default function create(api, opt) {
     }
     const compiler = webpack(config.toConfig());
     const instance = devMiddleware(compiler, {
+      publicPath: compiler.options.output.publicPath,
       logLevel: hasFriendError ? 'silent' : 'info',
     });
     fastify.use(instance);
@@ -59,6 +60,7 @@ export default function create(api, opt) {
         const filename = compiler.options.output.path + '/index.html';
         if (
           !/hot-update/i.test(request.req.url) &&
+          !/\.\w+$/i.test(request.req.url) &&
           /get/i.test(request.req.method) &&
           ['text/html', '*/*'].filter(
             type => request.headers.accept.indexOf(type) > -1
@@ -80,9 +82,8 @@ export default function create(api, opt) {
       reply.res.write(
         '<!DOCTYPE html><html><head><meta charset="utf-8"/></head><body>'
       );
-      const outputPath = instance.getFilenameFromUrl(
-        compiler.options.output.publicPath || '/'
-      );
+      const publicPath = compiler.options.output.publicPath
+      const outputPath = instance.getFilenameFromUrl(publicPath);
       const filesystem = instance.fileSystem;
       function writeDirectory(baseUrl, basePath) {
         const content = filesystem.readdirSync(basePath);
@@ -99,7 +100,7 @@ export default function create(api, opt) {
         });
         reply.res.write('</ul>');
       }
-      writeDirectory(compiler.options.output.publicPath || '/', outputPath);
+      writeDirectory((`${publicPath}/`).replace(/\/+$/,'/'), outputPath);
       reply.res.end('</body></html>');
     });
     setting.fastify(fastify);
