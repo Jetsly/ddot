@@ -10,8 +10,6 @@
 
 ## Features
 
-* 🌴  **Depend [inversify](http://inversify.io/)**, automatic loading of command, watch config, etc
-
 
 ## Getting Started
 
@@ -29,5 +27,6 @@ $ ddot
 ## Examples
 
 * [React](https://github.com/Jetsly/ddot/tree/master/example/react-example)
+* [vue](https://github.com/Jetsly/ddot/tree/master/example/vue-example)
 
 
