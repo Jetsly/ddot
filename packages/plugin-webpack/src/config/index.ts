@@ -1,3 +1,4 @@
+import { existsSync } from 'fs';
 import { join } from 'path';
 import * as webpack from 'webpack';
 import * as Config from 'webpack-chain';
@@ -77,10 +78,14 @@ export default function chainConfig(
     ),
   ]);
   friendlyProgress(config);
+  const tplFileName = 'document.ejs';
+  const tpl = join(path.absPagesPath, tplFileName);
   config.plugin('html-webpack').use(require('html-webpack-plugin'), [
     {
       title: cfgset.title,
-      template: join(__dirname, '../../tpl/document.ejs'),
+      template: existsSync(tpl)
+        ? tpl
+        : join(__dirname, '../../tpl', tplFileName),
     },
   ]);
   config.plugin('hash-module').use(webpack.HashedModuleIdsPlugin);

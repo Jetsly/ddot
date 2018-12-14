@@ -1,36 +1,23 @@
 export default {
   plugins: [
     [
-      'jenkins',
+      'webpack',
       {
-        hostName: 'jenkins.mundhana.com',
-        pathPrefix: '/job/mundhana/job',
-        prompt: ({ branch, jobName }) => [
-          {
-            type: 'input',
-            name: 'jobName',
-            messages: 'jobName',
-            default: 'console-flow-pipeline',
-          },
-          {
-            type: 'list',
-            name: 'Project',
-            messages: 'which project to deploy',
-            choices: () => ['portal-admin', 'lender-admin'],
-          },
-          {
-            type: 'list',
-            name: 'Branch',
-            messages: 'which branch to deploy',
-            choices: () => [branch, 'develop', 'master'],
-          },
-          {
-            type: 'list',
-            name: 'Env',
-            messages: 'which Env to deploy',
-            choices: () => ['develop', 'release'],
-          },
-        ],
+        chainWebpack(config) {
+          config
+            .plugin('vue-loader-plugin')
+            .use(require('vue-loader/lib/plugin'));
+          config.module
+            .rule('compile-vue')
+            .test(/\.vue?$/i)
+            .use('vue-loader')
+            .loader(require.resolve('vue-loader'));
+          config.output.publicPath('/econtract');
+          config
+            .entry('index')
+            .add('./src/index')
+            .end();
+        },
       },
     ],
   ],
