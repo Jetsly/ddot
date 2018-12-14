@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2](https://github.com/Jetsly/ddot/compare/vue@1.0.1...vue@1.0.2) (2018-12-14)
+
+
+### Features
+
+* **ddot-plugin-webpack:** auto load src/pages/document.ejs ([055644a](https://github.com/Jetsly/ddot/commit/055644a))
+
+
+
+
+
 ## 1.0.1 (2018-12-13)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.12](https://github.com/Jetsly/ddot/compare/react@0.0.11...react@0.0.12) (2018-12-14)
+
+
+### Features
+
+* **ddot-plugin-webpack:** auto load src/pages/document.ejs ([055644a](https://github.com/Jetsly/ddot/commit/055644a))
+
+
+
+
+
 ## [0.0.11](https://github.com/Jetsly/ddot/compare/react@0.0.10...react@0.0.11) (2018-12-14)
 
 **Note:** Version bump only for package react
