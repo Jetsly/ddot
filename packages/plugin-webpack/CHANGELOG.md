@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.10](https://github.com/Jetsly/ddot/compare/@ddot/ddot-plugin-webpack@0.0.9...@ddot/ddot-plugin-webpack@0.0.10) (2018-12-13)
+
+
+### Features
+
+* **ddot-plugin-webpack:** fix clean dist path ([deb584f](https://github.com/Jetsly/ddot/commit/deb584f))
+
+
+
+
+
+## [0.0.9](https://github.com/Jetsly/ddot/compare/@ddot/ddot-plugin-webpack@0.0.8...@ddot/ddot-plugin-webpack@0.0.9) (2018-12-13)
+
+
+### Features
+
+* **ddot-cli:** remove ioc ([aae1dd0](https://github.com/Jetsly/ddot/commit/aae1dd0))
+
+
+
+
+
+## [0.0.8](https://github.com/Jetsly/ddot/compare/@ddot/ddot-plugin-webpack@0.0.7...@ddot/ddot-plugin-webpack@0.0.8) (2018-12-01)
+
+
+### Features
+
+* **ddot-plugin-webpack:** export process.env ([c91b044](https://github.com/Jetsly/ddot/commit/c91b044))
+
+
+
+
+
 ## [0.0.7](https://github.com/Jetsly/ddot/compare/@ddot/ddot-plugin-webpack@0.0.6...@ddot/ddot-plugin-webpack@0.0.7) (2018-11-30)
 
 

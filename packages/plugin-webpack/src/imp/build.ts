@@ -1,4 +1,3 @@
-import { Container, Interfaces } from '@ddot/plugin-utils';
 import chalk from 'chalk';
 import * as cliui from 'cliui';
 import * as filesize from 'filesize';
@@ -6,8 +5,7 @@ import { basename, dirname, join } from 'path';
 import { fatal } from 'signale';
 import * as webpack from 'webpack';
 import chainConfig from '../config';
-import { gzipSize } from '../utils';
-
+import { getCfgSetting, gzipSize } from '../utils';
 function canReadAsset(asset) {
   return (
     /\.(js|css|html)$/.test(asset) &&
@@ -15,17 +13,14 @@ function canReadAsset(asset) {
     !/precache-manifest\.[0-9a-f]+\.js/.test(asset)
   );
 }
-
-@Container.injectable()
-export default class BuildCommand implements Interfaces.Icli<{}> {
-  public get command() {
-    return 'build';
-  }
-  public get describe() {
-    return 'building for production';
-  }
-  public async handler() {
-    const config = chainConfig('production');
+const command = 'build';
+export default function create(api, opt) {
+  api.cmd[command].describe = 'building for production';
+  api.cmd[command].apply = async () => {
+    const setting = getCfgSetting(opt)
+    const config = chainConfig('production', setting, {
+      path: api.path,
+    });
     const compiler = webpack(config.toConfig());
     compiler.run((err, webpackStats) => {
       if (err) {
@@ -68,5 +63,5 @@ export default class BuildCommand implements Interfaces.Icli<{}> {
         process.stdout.write(`\n`);
       }
     });
-  }
+  };
 }

@@ -1,13 +1,13 @@
 {
   "name": "@ddot/ddot-plugin-webpack",
   "main": "lib/index.js",
-  "version": "0.0.7",
+  "version": "0.0.10",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@ddot/plugin-utils": "^0.0.2",
+    "@ddot/plugin-utils": "^0.0.3",
     "address": "^1.0.3",
     "autoprefixer": "^9.3.1",
     "chalk": "^2.4.1",
@@ -37,7 +37,7 @@
     "typescript": "^3.1.6",
     "uglifyjs-webpack-plugin": "^2.0.1",
     "url-loader": "^1.1.2",
-    "webpack": "^4.25.1",
+    "webpack": "^4.27.1",
     "webpack-chain": "^5.0.1",
     "webpack-dev-middleware": "^3.4.0",
     "webpack-hot-middleware": "^2.24.3",

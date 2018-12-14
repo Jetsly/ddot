@@ -1,10 +1,7 @@
-import { getAllCli, getCommandName } from '../utils';
+import { isFunction } from '../utils';
 
-test('getCommandName', () => {
-  expect(getCommandName('jenkins [aaa]')).toBe('jenkins');
+test('isFunction', () => {
+  expect(isFunction(()=>null)).toBe(true);
+  expect(isFunction('jenkins [aaa]')).toBe(false);
 });
 
-test('getAllCli', () => {
-  expect(getAllCli()).toEqual([]);
-});
- 

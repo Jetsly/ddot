@@ -4,8 +4,7 @@ cache:
   yarn: true
 
 before_script:
-  - yarn workspace @ddot/plugin-utils build
+  - yarn build:utils
 
 node_js:
   - "8"
-  - "10"

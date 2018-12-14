@@ -3,9 +3,9 @@ import * as webpack from 'webpack';
 import * as Config from 'webpack-chain';
 import addLoader from './loader';
 
-import { getCfgSetting, isInteractive, setConfig } from '../utils';
+import { ICFG, isInteractive } from '../utils';
 
-const friendlyProgress: setConfig = config => {
+const friendlyProgress = config => {
   const { CLEAR_CONSOLE = '' } = process.env;
   if (isInteractive) {
     config.plugin('progress').use(require('webpackbar'));
@@ -44,9 +44,13 @@ const friendlyProgress: setConfig = config => {
     ]);
 };
 
-export default function chainConfig(mode: 'development' | 'production') {
+export default function chainConfig(
+  mode: 'development' | 'production',
+  cfgset: ICFG,
+  { path }
+) {
+  process.env.NODE_ENV = mode;
   const config = new Config();
-  const cfgset = getCfgSetting();
   config.mode(mode);
   config.output.publicPath('/');
   config.output.hashDigestLength(8);
@@ -75,17 +79,17 @@ export default function chainConfig(mode: 'development' | 'production') {
   friendlyProgress(config);
   config.plugin('html-webpack').use(require('html-webpack-plugin'), [
     {
-      title: cfgset.title || 'DDot App',
+      title: cfgset.title,
       template: join(__dirname, '../../tpl/document.ejs'),
     },
   ]);
   config.plugin('hash-module').use(webpack.HashedModuleIdsPlugin);
   if (mode === 'development') {
-    require('./env/dev').default(config);
+    require('./env/dev').default(config, cfgset, { path });
   } else {
-    require('./env/prod').default(config);
+    require('./env/prod').default(config, cfgset, { path });
   }
-  addLoader(config);
+  addLoader(config, cfgset);
   cfgset.chainWebpack(config);
   return config;
 }
