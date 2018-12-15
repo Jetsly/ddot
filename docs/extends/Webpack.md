@@ -9,6 +9,26 @@ $ yarn ddot dev  // to development project
 $ yarn ddot build  // to build project
 ```
 
+## guide
+
+### html template
+
+Create a new `src/pages/document.ejs`, if this file exists, it will be used as the default template
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" href="/favicon.png" type="image/x-icon">
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+</html>
+```
+
 ## options
 
 ```ts
