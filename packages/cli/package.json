@@ -1,6 +1,6 @@
 {
   "name": "@ddot/ddot-cli",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "license": "MIT",
   "bin": {
     "ddot": "bin/ddot.js"
@@ -9,7 +9,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@ddot/ddot-plugin-jenkins": "^0.0.2",
+    "@ddot/ddot-plugin-jenkins": "^0.0.3",
     "chalk": "^2.4.1",
     "cliui": "^4.1.0",
     "cosmiconfig": "^5.0.6",

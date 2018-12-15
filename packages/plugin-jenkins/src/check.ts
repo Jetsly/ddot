@@ -1,13 +1,11 @@
-import { exec } from 'shelljs';
+import { execSync } from 'child_process'
 import { error } from 'signale';
 
 const JENKINS_TOKEN = 'JENKINS_TOKEN';
 const COMMAND = 'Jenkins';
 
 function execShell(shellstr) {
-  return exec(shellstr, {
-    silent: true,
-  }).stdout.trim();
+  return execSync(shellstr).toString().trim()
 }
 
 export function checkConfig(config) {
