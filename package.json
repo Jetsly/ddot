@@ -27,6 +27,7 @@
     }
   },
   "scripts": {
+    "prepublish": "tsc -p packages/plugin-utils && tsc -p packages/plugin-webpack",
     "test": "jest --coverage",
     "dev:react": "yarn workspace react ddot dev",
     "dev:vue": "yarn workspace vue ddot dev",

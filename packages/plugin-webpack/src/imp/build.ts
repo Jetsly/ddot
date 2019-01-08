@@ -5,10 +5,10 @@ import { basename, dirname, join } from 'path';
 import { fatal } from 'signale';
 import * as webpack from 'webpack';
 import chainConfig from '../config';
-import { getCfgSetting, gzipSize } from '../utils';
+import { fileLength, getCfgSetting, gzipSize } from '../utils';
 function canReadAsset(asset) {
   return (
-    /\.(js|css|html)$/.test(asset) &&
+    /\.(js|css|html|png|jpe?g|gif)$/.test(asset) &&
     !/service-worker\.js/.test(asset) &&
     !/precache-manifest\.[0-9a-f]+\.js/.test(asset)
   );
@@ -17,7 +17,7 @@ const command = 'build';
 export default function create(api, opt) {
   api.cmd[command].describe = 'building for production';
   api.cmd[command].apply = async () => {
-    const setting = getCfgSetting(opt)
+    const setting = getCfgSetting(opt);
     const config = chainConfig('production', setting, {
       path: api.path,
     });
@@ -30,7 +30,8 @@ export default function create(api, opt) {
       const assets: Array<{
         folder: string;
         name: string;
-        size: string;
+        originSize: string;
+        compressSize: string;
       }> = webpackStats
         .toJson({ all: false, assets: true })
         .assets.filter(asset => canReadAsset(asset.name))
@@ -38,7 +39,8 @@ export default function create(api, opt) {
           return {
             folder: join(basename(buildFolder), dirname(asset.name)),
             name: basename(asset.name),
-            size: filesize(gzipSize(join(buildFolder, asset.name))),
+            originSize: filesize(fileLength(join(buildFolder, asset.name))),
+            compressSize: filesize(gzipSize(join(buildFolder, asset.name))),
           };
         });
       if (assets.length) {
@@ -47,11 +49,11 @@ export default function create(api, opt) {
           text: 'File sizes after gzip:',
           padding: [0, 0, 1, 2],
         });
-        assets.forEach(({ size, folder, name }) => {
+        assets.forEach(({ originSize, compressSize, folder, name }) => {
           ui.div(
             {
-              text: size,
-              width: 15,
+              text: `${originSize} ${chalk.green(`==>`)} ${compressSize}`,
+              width: 30,
               padding: [0, 0, 0, 4],
             },
             {
