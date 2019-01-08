@@ -18,6 +18,7 @@ const DEFAULT_BROWSERS = [
 // ];
 export interface ICFG {
   title: string;
+  outFileName: string;
   outputPath: string;
   chainWebpack: (config: Config) => void;
   fastify: (server: fastify.FastifyInstance) => void;
@@ -46,6 +47,9 @@ export interface ICFG {
 // tslint:disable-next-line:no-var-requires
 export type setConfig = (config: Config) => void;
 export const isInteractive = process.stdout.isTTY;
+export function fileLength(filePath: string) {
+  return readFileSync(filePath).length;
+}
 export function gzipSize(filePath: string) {
   return gzipSync(readFileSync(filePath)).length;
 }

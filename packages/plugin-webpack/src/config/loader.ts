@@ -40,7 +40,7 @@ export default (config: Config, cfgset: ICFG) => {
   const tsImport = cfgset.tsImportOption.length
     ? [require('ts-import-plugin')(cfgset.tsImportOption)]
     : [];
-  const compile = config.module.rule('compile').test(/\.tsx?$/i);
+  const compile = config.module.rule('compile').test(/\.(tsx?|mjs)$/i);
   compile
     .use('ts-loader')
     .loader(require.resolve('ts-loader'))
@@ -70,7 +70,7 @@ export default (config: Config, cfgset: ICFG) => {
     .loader(require.resolve('url-loader'))
     .options({
       limit: DEFAULT_INLINE_LIMIT,
-      name: 'static/[name].[hash].[ext]',
+      name: 'static/[name].[hash:8].[ext]',
     });
   // file
   config.module

@@ -53,6 +53,18 @@ title: 'DDot App',
 
 ```
 
+#### outFileName
+
+Configure the build `outFileName`
+
+such as:
+
+```js
+
+outFileName: 'assets/[name].[contenthash]',
+
+```
+
 #### outputPath
 
 Configure the build [outputPath](https://webpack.js.org/configuration/output/#output-path) 

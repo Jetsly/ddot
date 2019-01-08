@@ -1,11 +1,11 @@
 {
   "private": true,
   "name": "vue",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "index.js",
   "devDependencies": {
-    "@ddot/ddot-cli": "^0.0.6",
-    "@ddot/ddot-plugin-webpack": "^0.0.12",
+    "@ddot/ddot-cli": "^0.0.7",
+    "@ddot/ddot-plugin-webpack": "^0.0.13",
     "vue-loader": "^15.4.2",
     "vue-template-compiler": "^2.5.21"
   },
