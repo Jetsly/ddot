@@ -148,3 +148,7 @@ define: {
   "process.env.TEST": 1,
 },
 ```
+
+#### lessLoaderOptions
+
+Additional configuration items for [less-loader](https://github.com/webpack-contrib/less-loader).

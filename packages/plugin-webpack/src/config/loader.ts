@@ -33,6 +33,7 @@ export default (config: Config, cfgset: ICFG) => {
     .loader(require.resolve('less-loader'))
     .options({
       javascriptEnabled: true,
+      ...cfgset.lessLoaderOptions,
     });
   // ts
   const { transformers, ...restTsLoaderOption } = cfgset.tsLoaderOption;

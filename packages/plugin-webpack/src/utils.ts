@@ -36,6 +36,7 @@ export interface ICFG {
   };
   browserlist: string[];
   extraPostCSSPlugins: [];
+  lessLoaderOptions: {};
   alias: { [key: string]: string };
   define: { [key: string]: string };
   proxy: {
@@ -74,6 +75,7 @@ export function getCfgSetting(opt): ICFG {
     dll: {},
     tsImportOption: [],
     extraPostCSSPlugins: [],
+    lessLoaderOptions: {},
     browserlist: DEFAULT_BROWSERS,
     alias: {},
     define: {},
