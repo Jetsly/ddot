@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.16](https://github.com/Jetsly/ddot/compare/@ddot/ddot-plugin-webpack@0.0.15...@ddot/ddot-plugin-webpack@0.0.16) (2019-01-14)
+
+
+### Features
+
+* **ddot-plugin-webpack:** add dep connect-history-api-fallback ([260c859](https://github.com/Jetsly/ddot/commit/260c859))
+
+
+
+
+
 ## [0.0.15](https://github.com/Jetsly/ddot/compare/@ddot/ddot-plugin-webpack@0.0.14...@ddot/ddot-plugin-webpack@0.0.15) (2019-01-14)
 
 
