@@ -1,4 +1,3 @@
-import * as fastify from 'fastify';
 import { readFileSync } from 'fs';
 import * as Config from 'webpack-chain';
 import { gzipSync } from 'zlib';
@@ -21,7 +20,6 @@ export interface ICFG {
   outFileName: string;
   outputPath: string;
   chainWebpack: (config: Config) => void;
-  fastify: (server: fastify.FastifyInstance) => void;
   hot: boolean;
   tsImportOption: Array<{
     libraryName: string;

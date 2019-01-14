@@ -7,7 +7,8 @@
   "devDependencies": {
     "@ddot/ddot-cli": "^0.0.7",
     "@ddot/ddot-plugin-webpack": "^0.0.14",
-    "react-hot-loader": "^4.3.12"
+    "react-hot-loader": "^4.3.12",
+    "ts-react-hot-transformer": "^0.1.1"
   },
   "scripts": {
     "start": "ddot dev",

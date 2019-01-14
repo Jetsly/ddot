@@ -3,10 +3,9 @@ import * as React from 'react';
 import { hot } from 'react-hot-loader';
 import './index.less';
 declare var c:string
-console.log(c)
 class A extends React.Component {
   public render() {
-    return <div>ccvvvc</div>;
+    return <div>111111</div>;
   }
 }
 export default hot(module)(() => (

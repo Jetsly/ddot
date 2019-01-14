@@ -108,11 +108,9 @@ tsImportOption: [
 
 #### proxy
 
-Configure the [proxy](https://github.com/fastify/fastify-http-proxy) property ,If you want to proxy requests to other servers,
+Configure the [proxy](https://github.com/chimurai/http-proxy-middleware) property ,If you want to proxy requests to other servers,
 
-* `key` map to `path`
-* `key` map to `prefix`
-* `target` map to `upstream`
+* `key` map to `context`
 * other property can auto to proxy property
 
 such as:
