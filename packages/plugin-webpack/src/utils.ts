@@ -63,7 +63,6 @@ export function getCfgSetting(opt): ICFG {
     chainWebpack(config) {},
     hot: true,
     sourceMap: false,
-    dll: {},
     tsImportOption: [],
     extraPostCSSPlugins: [],
     lessLoaderOptions: {},

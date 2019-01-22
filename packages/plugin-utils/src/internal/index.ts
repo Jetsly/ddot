@@ -11,7 +11,7 @@ const delay = time => new Promise(resolve => setTimeout(() => resolve(), time));
  * @param origin 原始
  * @param append 追加
  */
-function mergeOptions(origin, append) {
+export function mergeOptions(origin, append) {
   return Object.keys(append).reduce(
     (opts, key) => {
       const originValue = opts[key];
@@ -31,7 +31,6 @@ function mergeOptions(origin, append) {
 }
 
 export const utils = {
-  mergeOptions,
   clearConsole,
   choosePort,
   delay,
