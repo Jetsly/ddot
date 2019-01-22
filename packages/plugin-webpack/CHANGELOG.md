@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.18](https://github.com/Jetsly/ddot/compare/@ddot/ddot-plugin-webpack@0.0.17...@ddot/ddot-plugin-webpack@0.0.18) (2019-01-22)
+
+
+### Bug Fixes
+
+* **ddot-plugin-webpack:** fix publish ([8793994](https://github.com/Jetsly/ddot/commit/8793994))
+
+
+
+
+
 ## [0.0.17](https://github.com/Jetsly/ddot/compare/@ddot/ddot-plugin-webpack@0.0.16...@ddot/ddot-plugin-webpack@0.0.17) (2019-01-22)
 
 
