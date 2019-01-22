@@ -8,19 +8,14 @@ const DEFAULT_BROWSERS = [
   'Firefox ESR',
   'not ie < 9',
 ];
-// const DEFAULT_TS_IMPORT_OPTION = [
-//   {
-//     libraryName: 'antd',
-//     libraryDirectory: 'es',
-//     style: true,
-//   },
-// ];
+
 export interface ICFG {
   title: string;
   outFileName: string;
   outputPath: string;
   chainWebpack: (config: Config) => void;
   hot: boolean;
+  sourceMap: boolean;
   tsImportOption: Array<{
     libraryName: string;
     libraryDirectory: string;
@@ -66,10 +61,8 @@ export function getCfgSetting(opt): ICFG {
     outputPath: './dist',
     // tslint:disable-next-line:no-empty
     chainWebpack(config) {},
-    // tslint:disable-next-line:no-empty
-    fastify(server) {},
     hot: true,
-    enableDll: false,
+    sourceMap: false,
     dll: {},
     tsImportOption: [],
     extraPostCSSPlugins: [],
