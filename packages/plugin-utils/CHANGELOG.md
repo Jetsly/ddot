@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.5](https://github.com/Jetsly/ddot/compare/@ddot/plugin-utils@0.0.4...@ddot/plugin-utils@0.0.5) (2019-01-22)
+
+
+### Features
+
+* **ddot-plugin-webpack:** add sourcemap when prod ([45b63b4](https://github.com/Jetsly/ddot/commit/45b63b4))
+
+
+
+
+
 ## [0.0.4](https://github.com/Jetsly/ddot/compare/@ddot/plugin-utils@0.0.3...@ddot/plugin-utils@0.0.4) (2019-01-08)
 
 **Note:** Version bump only for package @ddot/plugin-utils

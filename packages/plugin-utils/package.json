@@ -1,7 +1,7 @@
 {
   "name": "@ddot/plugin-utils",
   "main": "lib/index.js",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
