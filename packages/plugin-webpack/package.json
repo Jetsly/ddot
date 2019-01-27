@@ -1,13 +1,13 @@
 {
   "name": "@ddot/ddot-plugin-webpack",
   "main": "lib/index.js",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@ddot/plugin-utils": "^0.0.6",
+    "@ddot/plugin-utils": "^0.0.7",
     "address": "^1.0.3",
     "autoprefixer": "^9.3.1",
     "chalk": "^2.4.1",

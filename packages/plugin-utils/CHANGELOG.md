@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.7](https://github.com/Jetsly/ddot/compare/@ddot/plugin-utils@0.0.6...@ddot/plugin-utils@0.0.7) (2019-01-27)
+
+
+### Bug Fixes
+
+* **ddot-plugin-webpack:** fix mjs ([fb52339](https://github.com/Jetsly/ddot/commit/fb52339))
+
+
+
+
+
 ## [0.0.6](https://github.com/Jetsly/ddot/compare/@ddot/plugin-utils@0.0.5...@ddot/plugin-utils@0.0.6) (2019-01-22)
 
 
