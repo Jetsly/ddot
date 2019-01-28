@@ -3,6 +3,11 @@ export default {
     [
       'webpack',
       {
+        proxy: {
+          '/todos/1': {
+            target: 'http://jsonplaceholder.typicode.com/',
+          },
+        },
         chainWebpack(config) {
           config
             .plugin('vue-loader-plugin')

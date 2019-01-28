@@ -3,6 +3,83 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.20](https://github.com/Jetsly/ddot/compare/@ddot/ddot-plugin-webpack@0.0.19...@ddot/ddot-plugin-webpack@0.0.20) (2019-01-28)
+
+
+### Bug Fixes
+
+* **ddot-plugin-webpack:** fix json loader ([34cbaf7](https://github.com/Jetsly/ddot/commit/34cbaf7))
+
+
+
+
+
+## [0.0.19](https://github.com/Jetsly/ddot/compare/@ddot/ddot-plugin-webpack@0.0.18...@ddot/ddot-plugin-webpack@0.0.19) (2019-01-27)
+
+
+### Bug Fixes
+
+* **ddot-plugin-webpack:** fix mjs ([fb52339](https://github.com/Jetsly/ddot/commit/fb52339))
+
+
+
+
+
+## [0.0.18](https://github.com/Jetsly/ddot/compare/@ddot/ddot-plugin-webpack@0.0.17...@ddot/ddot-plugin-webpack@0.0.18) (2019-01-22)
+
+
+### Bug Fixes
+
+* **ddot-plugin-webpack:** fix publish ([8793994](https://github.com/Jetsly/ddot/commit/8793994))
+
+
+
+
+
+## [0.0.17](https://github.com/Jetsly/ddot/compare/@ddot/ddot-plugin-webpack@0.0.16...@ddot/ddot-plugin-webpack@0.0.17) (2019-01-22)
+
+
+### Features
+
+* **ddot-plugin-webpack:** add sourcemap when prod ([45b63b4](https://github.com/Jetsly/ddot/commit/45b63b4))
+
+
+
+
+
+## [0.0.16](https://github.com/Jetsly/ddot/compare/@ddot/ddot-plugin-webpack@0.0.15...@ddot/ddot-plugin-webpack@0.0.16) (2019-01-14)
+
+
+### Features
+
+* **ddot-plugin-webpack:** add dep connect-history-api-fallback ([260c859](https://github.com/Jetsly/ddot/commit/260c859))
+
+
+
+
+
+## [0.0.15](https://github.com/Jetsly/ddot/compare/@ddot/ddot-plugin-webpack@0.0.14...@ddot/ddot-plugin-webpack@0.0.15) (2019-01-14)
+
+
+### Features
+
+* **ddot-plugin-webpack:** change fastify=>express ([8d6e780](https://github.com/Jetsly/ddot/commit/8d6e780))
+
+
+
+
+
+## [0.0.14](https://github.com/Jetsly/ddot/compare/@ddot/ddot-plugin-webpack@0.0.13...@ddot/ddot-plugin-webpack@0.0.14) (2019-01-11)
+
+
+### Features
+
+* **ddot-plugin-webpack:** add lessLoaderOptions options ([af344d1](https://github.com/Jetsly/ddot/commit/af344d1))
+
+
+
+
+
 ## [0.0.13](https://github.com/Jetsly/ddot/compare/@ddot/ddot-plugin-webpack@0.0.12...@ddot/ddot-plugin-webpack@0.0.13) (2019-01-08)
 
 

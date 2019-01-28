@@ -12,6 +12,7 @@ export default async function createCommand(api, opts) {
   api.cmd[command].describe = describe;
   api.cmd[command].apply = async () => {
     const [token, defaultBranch] = checkConfig(opts);
+    opts.mapValue = opts.mapValue || (val => val);
     const data = {
       branch: defaultBranch,
     };
@@ -29,12 +30,17 @@ export default async function createCommand(api, opts) {
       interactive.await(`${stepFormat} - Get Next Job Id`, 1);
       const numb = await nextBuildNumber(post, jobName);
       interactive.await(`${stepFormat} - Invoke Job ID ${numb}`, 2);
-      const err = await toExec(post, answer, jobName);
+      const err = await toExec(post, opts.mapValue(answer), jobName);
       if (err) {
         throw new Error(err);
       }
       interactive.await(`${stepFormat} - Wait Job ID ${numb} Done`, 3);
-      const status = await checkBuildStatus(post, jobName, numb);
+      const status = await checkBuildStatus(
+        post,
+        jobName,
+        numb,
+        opts.showConsoleText || true
+      );
       if (status) {
         interactive.success(`${stepFormat} - Job Done`, 4);
       } else {

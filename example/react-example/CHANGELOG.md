@@ -3,6 +3,65 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.20](https://github.com/Jetsly/ddot/compare/react@0.0.19...react@0.0.20) (2019-01-28)
+
+**Note:** Version bump only for package react
+
+
+
+
+
+## [0.0.19](https://github.com/Jetsly/ddot/compare/react@0.0.18...react@0.0.19) (2019-01-27)
+
+**Note:** Version bump only for package react
+
+
+
+
+
+## [0.0.18](https://github.com/Jetsly/ddot/compare/react@0.0.17...react@0.0.18) (2019-01-22)
+
+**Note:** Version bump only for package react
+
+
+
+
+
+## [0.0.17](https://github.com/Jetsly/ddot/compare/react@0.0.16...react@0.0.17) (2019-01-22)
+
+**Note:** Version bump only for package react
+
+
+
+
+
+## [0.0.16](https://github.com/Jetsly/ddot/compare/react@0.0.15...react@0.0.16) (2019-01-14)
+
+**Note:** Version bump only for package react
+
+
+
+
+
+## [0.0.15](https://github.com/Jetsly/ddot/compare/react@0.0.14...react@0.0.15) (2019-01-14)
+
+
+### Features
+
+* **ddot-plugin-webpack:** change fastify=>express ([8d6e780](https://github.com/Jetsly/ddot/commit/8d6e780))
+
+
+
+
+
+## [0.0.14](https://github.com/Jetsly/ddot/compare/react@0.0.13...react@0.0.14) (2019-01-11)
+
+**Note:** Version bump only for package react
+
+
+
+
+
 ## [0.0.13](https://github.com/Jetsly/ddot/compare/react@0.0.12...react@0.0.13) (2019-01-08)
 
 **Note:** Version bump only for package react

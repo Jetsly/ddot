@@ -7,11 +7,23 @@ async function delay(time) {
 export async function checkBuildStatus(
   post,
   jobName,
-  buildNumber
+  buildNumber,
+  showConsoleText = true
 ): Promise<boolean> {
   const path = `${jobName}/${buildNumber}/api/json?tree=result`;
+  while (true) {
+    try {
+      JSON.parse(await post(path));
+      break;
+    } catch (error) {
+      await delay(500);
+    }
+  }
   const now = Date.now();
   while (true) {
+    if (showConsoleText) {
+      console.log(await post(`${jobName}/${buildNumber}/consoleText`));
+    }
     const { result } = JSON.parse(await post(path));
     if (result === 'FAILURE' || Date.now() - now > 1000 * 5 * 60) {
       return false;

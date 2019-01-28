@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.8](https://github.com/Jetsly/ddot/compare/@ddot/ddot-cli@0.0.7...@ddot/ddot-cli@0.0.8) (2019-01-22)
+
+**Note:** Version bump only for package @ddot/ddot-cli
+
+
+
+
+
 ## [0.0.7](https://github.com/Jetsly/ddot/compare/@ddot/ddot-cli@0.0.6...@ddot/ddot-cli@0.0.7) (2019-01-08)
 
 **Note:** Version bump only for package @ddot/ddot-cli

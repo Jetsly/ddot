@@ -1,4 +1,3 @@
-import * as fastify from 'fastify';
 import { readFileSync } from 'fs';
 import * as Config from 'webpack-chain';
 import { gzipSync } from 'zlib';
@@ -9,20 +8,14 @@ const DEFAULT_BROWSERS = [
   'Firefox ESR',
   'not ie < 9',
 ];
-// const DEFAULT_TS_IMPORT_OPTION = [
-//   {
-//     libraryName: 'antd',
-//     libraryDirectory: 'es',
-//     style: true,
-//   },
-// ];
+
 export interface ICFG {
   title: string;
   outFileName: string;
   outputPath: string;
   chainWebpack: (config: Config) => void;
-  fastify: (server: fastify.FastifyInstance) => void;
   hot: boolean;
+  sourceMap: boolean;
   tsImportOption: Array<{
     libraryName: string;
     libraryDirectory: string;
@@ -36,6 +29,7 @@ export interface ICFG {
   };
   browserlist: string[];
   extraPostCSSPlugins: [];
+  lessLoaderOptions: {};
   alias: { [key: string]: string };
   define: { [key: string]: string };
   proxy: {
@@ -67,13 +61,11 @@ export function getCfgSetting(opt): ICFG {
     outputPath: './dist',
     // tslint:disable-next-line:no-empty
     chainWebpack(config) {},
-    // tslint:disable-next-line:no-empty
-    fastify(server) {},
     hot: true,
-    enableDll: false,
-    dll: {},
+    sourceMap: false,
     tsImportOption: [],
     extraPostCSSPlugins: [],
+    lessLoaderOptions: {},
     browserlist: DEFAULT_BROWSERS,
     alias: {},
     define: {},

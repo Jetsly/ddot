@@ -31,6 +31,7 @@ export default (config: Config, cfgset: ICFG, { path }) => {
       allowExternal: true,
     },
   ]);
+  config.optimization.noEmitOnErrors(false);
   config.optimization
     .minimizer('css')
     .use(require('optimize-css-assets-webpack-plugin'));
@@ -38,7 +39,17 @@ export default (config: Config, cfgset: ICFG, { path }) => {
     {
       cache: true,
       parallel: true,
-      sourceMap: false,
+      sourceMap: cfgset.sourceMap,
     },
   ]);
+  if (cfgset.sourceMap) {
+    config
+      .plugin('source-plugin')
+      .use(require('webpack').SourceMapDevToolPlugin, [
+        {
+          filename: 'sourcemaps/[file].map',
+          fileContext: 'assets',
+        },
+      ]);
+  }
 };

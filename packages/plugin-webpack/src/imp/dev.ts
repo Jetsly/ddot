@@ -1,13 +1,45 @@
 import { utils } from '@ddot/plugin-utils';
 import { ip } from 'address';
-import * as Fastify from 'fastify';
+import * as compress from 'compression';
+import * as historyApiFallback from 'connect-history-api-fallback';
+import * as express from 'express';
+import * as httpProxyMiddleware from 'http-proxy-middleware';
 import { fatal } from 'signale';
 import * as webpack from 'webpack';
 import * as devMiddleware from 'webpack-dev-middleware';
 import chainConfig from '../config';
 import { getCfgSetting } from '../utils';
 
-const command = 'dev'; 
+const command = 'dev';
+const serverFiles = ({ instance, outputPath, prefixPath }) => (req, res) => {
+  res.setHeader('Content-Type', 'text/html');
+  res.write('<!DOCTYPE html><html><head><meta charset="utf-8"/></head><body>');
+  const filesystem = instance.fileSystem;
+  function writeDirectory(baseUrl, basePath) {
+    const content = filesystem.readdirSync(basePath);
+    res.write('<ul>');
+    content.forEach(item => {
+      const p = `${basePath}/${item}`;
+      if (filesystem.statSync(p).isFile()) {
+        res.write('<li><a href="');
+        res.write(baseUrl + item);
+        res.write('">');
+        res.write(item);
+        res.write('</a></li>');
+      } else {
+        res.write('<li>');
+        res.write(item);
+        res.write('<br>');
+        writeDirectory(`${baseUrl + item}/`, p);
+        res.write('</li>');
+      }
+    });
+
+    res.write('</ul>');
+  }
+  writeDirectory(`${prefixPath}/`, outputPath);
+  res.end('</body></html>');
+};
 export default function create(api, opt) {
   api.cmd[command].describe = 'start a dev server for development';
   api.cmd[command].apply = async () => {
@@ -15,8 +47,8 @@ export default function create(api, opt) {
     if (!port) {
       return;
     }
-    const setting = getCfgSetting(opt)
-    const fastify = Fastify();
+    const setting = getCfgSetting(opt);
+    const app = new express();
     const config = chainConfig('development', setting, {
       path: api.path,
     });
@@ -43,77 +75,33 @@ export default function create(api, opt) {
       });
     }
     const compiler = webpack(config.toConfig());
+    const publicPath = compiler.options.output.publicPath;
     const instance = devMiddleware(compiler, {
-      publicPath: compiler.options.output.publicPath,
+      publicPath,
       logLevel: hasFriendError ? 'silent' : 'info',
     });
-    fastify.use(instance);
-    if (setting.hot) {
-      fastify.use(
-        require('webpack-hot-middleware')(compiler, {
-          log: false,
-        })
-      );
-    }
-    fastify.setNotFoundHandler((request, reply) => {
-      try {
-        const filename = compiler.options.output.path + '/index.html';
-        if (
-          !/hot-update/i.test(request.req.url) &&
-          !/\.\w+$/i.test(request.req.url) &&
-          /get/i.test(request.req.method) &&
-          ['text/html', '*/*'].filter(
-            type => request.headers.accept.indexOf(type) > -1
-          ).length &&
-          instance.fileSystem.statSync(filename).isFile()
-        ) {
-          reply
-            .type('text/html')
-            .send(instance.fileSystem.readFileSync(filename));
-        } else {
-          reply.code(404).send(new Error('Not Found'));
-        }
-      } catch (e) {
-        reply.code(404).send(new Error('Not Found'));
-      }
-    });
-    fastify.get('/__ddot-plugin-server', (req, reply) => {
-      reply.type('text/html');
-      reply.res.write(
-        '<!DOCTYPE html><html><head><meta charset="utf-8"/></head><body>'
-      );
-      const publicPath = compiler.options.output.publicPath
-      const outputPath = instance.getFilenameFromUrl(publicPath);
-      const filesystem = instance.fileSystem;
-      function writeDirectory(baseUrl, basePath) {
-        const content = filesystem.readdirSync(basePath);
-        reply.res.write('<ul>');
-        content.forEach(item => {
-          const p = `${basePath}/${item}`;
-          if (filesystem.statSync(p).isFile()) {
-            reply.res.write(`<li><a href="${baseUrl}${item}">${item}</a></li>`);
-          } else {
-            reply.res.write(`<li>${item}<br>`);
-            writeDirectory(`${baseUrl + item}/`, p);
-            reply.res.write('</li>');
-          }
-        });
-        reply.res.write('</ul>');
-      }
-      writeDirectory((`${publicPath}/`).replace(/\/+$/,'/'), outputPath);
-      reply.res.end('</body></html>');
-    });
-    setting.fastify(fastify);
+    const prefixPath = publicPath.replace(/\/+$/,'');
+    const outputPath = instance.getFilenameFromUrl(publicPath);
+    app.use(compress());
     Object.keys(setting.proxy).forEach(prefix => {
       const { target, ...rest } = setting.proxy[prefix];
-      fastify.register(require('fastify-http-proxy'), {
-        upstream: target,
+      app.use(
         prefix,
-        rewritePrefix: prefix,
-        ...rest,
-      });
+        httpProxyMiddleware(prefix, { target, changeOrigin: true, ...rest })
+      );
     });
-    fastify.listen(port, '0.0.0.0', err => {
+    app.use(
+      historyApiFallback({
+        index: `${prefixPath}/index.html`,
+      })
+    );
+    app.use(instance);
+    app.use(require('webpack-hot-middleware')(compiler));
+    app.get(
+      '/__webpack_files',
+      serverFiles({ instance, prefixPath, outputPath })
+    );
+    app.listen(port, '0.0.0.0', err => {
       if (err) {
         fatal(err);
       }
