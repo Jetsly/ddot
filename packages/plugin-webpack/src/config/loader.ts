@@ -36,14 +36,18 @@ export default (config: Config, cfgset: ICFG) => {
       ...cfgset.lessLoaderOptions,
     });
 
-  config.module.rule('mjs').test(/\.mjs$/).type('javascript/auto').end()  
+  config.module
+    .rule('mjs')
+    .test(/\.mjs$/)
+    .type('javascript/auto')
+    .end();
   // ts
   const { transformers, ...restTsLoaderOption } = cfgset.tsLoaderOption;
 
   const tsImport = cfgset.tsImportOption.length
     ? [require('ts-import-plugin')(cfgset.tsImportOption)]
     : [];
-   
+
   const compile = config.module.rule('compile').test(/\.tsx?$/i);
   compile
     .use('ts-loader')
@@ -70,6 +74,8 @@ export default (config: Config, cfgset: ICFG) => {
   config.module
     .rule('url')
     .test(/\.(png|jpe?g|gif|svg)$/i)
+    .exclude.add(/node_modules/)
+    .end()
     .use('url-loader')
     .loader(require.resolve('url-loader'))
     .options({
@@ -80,6 +86,8 @@ export default (config: Config, cfgset: ICFG) => {
   config.module
     .rule('file')
     .test(/\.(json)$/i)
+    .exclude.add(/node_modules/)
+    .end()
     .use('file-loader')
     .loader(require.resolve('file-loader'));
 };
