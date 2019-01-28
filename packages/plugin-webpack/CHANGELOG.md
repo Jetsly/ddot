@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.20](https://github.com/Jetsly/ddot/compare/@ddot/ddot-plugin-webpack@0.0.19...@ddot/ddot-plugin-webpack@0.0.20) (2019-01-28)
+
+
+### Bug Fixes
+
+* **ddot-plugin-webpack:** fix json loader ([34cbaf7](https://github.com/Jetsly/ddot/commit/34cbaf7))
+
+
+
+
+
 ## [0.0.19](https://github.com/Jetsly/ddot/compare/@ddot/ddot-plugin-webpack@0.0.18...@ddot/ddot-plugin-webpack@0.0.19) (2019-01-27)
 
 
