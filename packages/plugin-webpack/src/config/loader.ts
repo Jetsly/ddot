@@ -36,11 +36,11 @@ export default (config: Config, cfgset: ICFG) => {
       ...cfgset.lessLoaderOptions,
     });
 
-  config.module
-    .rule('mjs')
-    .test(/\.mjs$/)
-    .type('javascript/auto')
-    .end();
+  // config.module
+  //   .rule('mjs')
+  //   .test(/\.mjs$/)
+  //   .type('javascript/auto')
+  //   .end();
   // ts
   const { transformers, ...restTsLoaderOption } = cfgset.tsLoaderOption;
 
@@ -48,7 +48,7 @@ export default (config: Config, cfgset: ICFG) => {
     ? [require('ts-import-plugin')(cfgset.tsImportOption)]
     : [];
 
-  const compile = config.module.rule('compile').test(/\.tsx?$/i);
+  const compile = config.module.rule('compile').test(/\.(tsx?|mjs)$/i);
   compile
     .use('ts-loader')
     .loader(require.resolve('ts-loader'))
