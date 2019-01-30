@@ -36,11 +36,11 @@ export default (config: Config, cfgset: ICFG) => {
       ...cfgset.lessLoaderOptions,
     });
 
-  // config.module
-  //   .rule('mjs')
-  //   .test(/\.mjs$/)
-  //   .type('javascript/auto')
-  //   .end();
+  config.module
+    .rule('mjs')
+    .test(/\.mjs$/)
+    .type('javascript/auto')
+    .end();
   // ts
   const { transformers, ...restTsLoaderOption } = cfgset.tsLoaderOption;
 
