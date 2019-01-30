@@ -1,12 +1,12 @@
 {
   "private": true,
   "name": "react",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
     "@ddot/ddot-cli": "^0.0.8",
-    "@ddot/ddot-plugin-webpack": "^0.0.21",
+    "@ddot/ddot-plugin-webpack": "^0.0.22",
     "react-hot-loader": "^4.3.12",
     "ts-react-hot-transformer": "^0.1.1"
   },
