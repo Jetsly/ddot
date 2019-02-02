@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.23](https://github.com/Jetsly/ddot/compare/@ddot/ddot-plugin-webpack@0.0.22...@ddot/ddot-plugin-webpack@0.0.23) (2019-02-02)
+
+**Note:** Version bump only for package @ddot/ddot-plugin-webpack
+
+
+
+
+
 ## [0.0.22](https://github.com/Jetsly/ddot/compare/@ddot/ddot-plugin-webpack@0.0.21...@ddot/ddot-plugin-webpack@0.0.22) (2019-01-30)
 
 **Note:** Version bump only for package @ddot/ddot-plugin-webpack

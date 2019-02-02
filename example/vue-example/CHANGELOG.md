@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.13](https://github.com/Jetsly/ddot/compare/vue@1.0.12...vue@1.0.13) (2019-02-02)
+
+**Note:** Version bump only for package vue
+
+
+
+
+
 ## [1.0.12](https://github.com/Jetsly/ddot/compare/vue@1.0.11...vue@1.0.12) (2019-01-30)
 
 **Note:** Version bump only for package vue

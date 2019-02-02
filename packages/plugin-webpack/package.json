@@ -1,7 +1,7 @@
 {
   "name": "@ddot/ddot-plugin-webpack",
   "main": "lib/index.js",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
