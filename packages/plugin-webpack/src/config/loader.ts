@@ -1,44 +1,12 @@
 import { sync } from 'find-up';
 import * as Config from 'webpack-chain';
 import { ICFG } from '../utils';
+import cssRule from './css-rule';
 
 const DEFAULT_INLINE_LIMIT = 10000;
 
 export default (config: Config, cfgset: ICFG) => {
-  const devMode = process.env.NODE_ENV !== 'production';
-  // css
-  const cssRule = config.module.rule('css').test(/\.(le|c)ss$/i);
-  if (devMode) {
-    cssRule.use('css-hot-loader').loader(require.resolve('css-hot-loader'));
-  }
-  cssRule
-    .use('extract-css-loader')
-    .loader(require('mini-css-extract-plugin').loader);
-  cssRule
-    .use('css-loader')
-    .loader(require.resolve('css-loader'))
-    .options(cfgset.extraCSSOptions);
-  cssRule
-    .use('postcss-loader')
-    .loader(require.resolve('postcss-loader'))
-    .options({
-      plugins: () => [
-        require('postcss-flexbugs-fixes'),
-        require('autoprefixer')({
-          browsers: cfgset.browserlist,
-          flexbox: 'no-2009',
-        }),
-        ...cfgset.extraPostCSSPlugins,
-      ],
-    });
-  cssRule
-    .use('less-loader')
-    .loader(require.resolve('less-loader'))
-    .options({
-      javascriptEnabled: true,
-      ...cfgset.lessLoaderOptions,
-    });
-
+  cssRule(config, cfgset);
   config.module
     .rule('mjs')
     .test(/\.mjs$/)
