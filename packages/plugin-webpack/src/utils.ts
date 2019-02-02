@@ -28,6 +28,7 @@ export interface ICFG {
     };
   };
   browserlist: string[];
+  extraCSSOptions: {};
   extraPostCSSPlugins: [];
   lessLoaderOptions: {};
   alias: { [key: string]: string };
@@ -64,6 +65,7 @@ export function getCfgSetting(opt): ICFG {
     hot: true,
     sourceMap: false,
     tsImportOption: [],
+    extraCSSOptions: {},
     extraPostCSSPlugins: [],
     lessLoaderOptions: {},
     browserlist: DEFAULT_BROWSERS,

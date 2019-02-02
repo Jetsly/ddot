@@ -14,7 +14,10 @@ export default (config: Config, cfgset: ICFG) => {
   cssRule
     .use('extract-css-loader')
     .loader(require('mini-css-extract-plugin').loader);
-  cssRule.use('css-loader').loader(require.resolve('css-loader'));
+  cssRule
+    .use('css-loader')
+    .loader(require.resolve('css-loader'))
+    .options(cfgset.extraCSSOptions);
   cssRule
     .use('postcss-loader')
     .loader(require.resolve('postcss-loader'))
